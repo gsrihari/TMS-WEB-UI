@@ -1,0 +1,328 @@
+<div class="modal" id="showTMSTyreServiceModalId" role="dialog">
+    <div class="modal-dialog modal-lg">
+    <div class="modal-content" >
+    	<div class="modal-header">
+	    <h4 class="modal-title" id="modal-title">
+		<i class="fa fa-cogs fafont-icon" aria-hidden="true"></i> 
+		<i class="fafont-icon" ng-show="addTyreServiceStatus"> Add Tyre Service </i>
+		<i class="fafont-icon" ng-show="updateTyreServiceStatus"> Update Tyre Service</i>
+	    </h4>
+	    <button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+    	</div>
+    	<div class="modal-body">
+  	    <div class="row-space row">
+      		<label class="col-2 control-label" for="Service">Tyre Number <em class="imp_asterisk">*</em> </label>
+      		<div class="col-3">
+    		    <select id="serviceTyreId" ng-model="selectedTyreId" ng-change="tyreIdChanged()" tabindex="1">
+    		      <option value=""></option>
+              <option ng-repeat="tyre in TMSShortTiresList" value="{{tyre.tireId}}">{{tyre.tireNumber}}</option>
+    		    </select>
+      		</div>
+      		<div class="col-1"></div>
+		<label class="col-2 control-label" for="Service">Removal Date <em class="imp_asterisk">*</em> </label>
+      		<div class="col-3 input-group" style="width: 25% !important;">
+    		    <input class="form-control" id="tyreRemoveDate_id" placeholder="Tyre Removal Date" type="text" style="height: 34px;" tabindex="8">
+    		    <div class="datepicker-icn" style="cursor: pointer;height: 34px; padding: 0.5rem !important;" onclick="$('#tyreRemoveDate_id').focus();">
+			<i class="fa fa-calendar" style="cursor: pointer"></i>
+    		    </div>
+      		</div>
+  	    </div>
+  	    <div class="row-space row">
+      		<label class="col-2 control-label" for="Service">Depot <em class="imp_asterisk">*</em> </label>
+      		<div class="col-3">
+      		    <input class="form-control" id="tyreDeport_id" placeholder="Location" type="text" ng-model="depot" tabindex="2">
+      		</div>
+      		<div class="col-1"></div>
+      		<label class="col-2 control-label" for="Service">Removal KM <em class="imp_asterisk">*</em></label>
+      		<div class="col-3">
+      		    <input class="form-control" id="tyreRemovedKms_id" placeholder="Kms" type="number"
+                ng-model="tyreRemovedKms" tabindex="9">
+      		</div>
+  	    </div>
+  	    <div class="row-space row">
+      		<label class="col-2 control-label" for="Service">Tyre Make <em class="imp_asterisk">*</em> </label>
+      		<div class="col-3">
+      		    <input class="form-control" id="tyreMake_id" placeholder="Tyre Make" type="text" ng-model="tireMake" tabindex="3">
+      		</div>
+      		<div class="col-1"></div>
+      		<label class="col-2 control-label" for="Service">Tyre Kms <em class="imp_asterisk">*</em> </label>
+      		<div class="col-3">
+      		    <input class="form-control" id="tyreKms_id" placeholder="Total Kms" type="text"
+                ng-model="totalKms" disabled>
+      		</div>
+  	    </div>
+  	    <div class="row-space row">
+      		<label class="col-2 control-label" for="Service"> Vehicle <em class="imp_asterisk">*</em> </label>
+      		<div class="col-3">
+            <select id="selectedTMSServiceVeh_id" ng-model="selectedTMSServiceVehId"  tabindex="1" ng-disabled = "updateTyreServiceStatus">
+    		      <option value=""></option>
+              <option ng-repeat="vehDetails in TMSShortVehList" value="{{vehDetails.vehId}}">{{vehDetails.vehName}}</option>
+    		    </select>
+      		</div>
+      		<div class="col-1"></div>
+      		<label class="col-2 control-label" for="Service">Reason for Removal <em class="imp_asterisk">*</em> </label>
+      		<div class="col-3">
+    		    <input class="form-control" id="tyreRemoveReason_id" placeholder="Reason" type="text" ng-model="reason" tabindex="10">
+      		</div>
+  	    </div>
+	    <div class="row-space row">
+		<label class="col-2 control-label" for="Service">Fitment Date <em class="imp_asterisk">*</em> </label>
+		<div class="col-3 input-group" style="width: 25% !important;">
+		    <input class="form-control" id="tyreFittedDate_id" placeholder="Fitted Date" type="text" style="height: 34px;" tabindex="5">
+		    <div class="datepicker-icn" style="cursor: pointer;height: 34px; padding: 0.5rem !important;" onclick="$('#tyreFittedDate_id').focus();">
+			<i class="fa fa-calendar" style="cursor: pointer"></i>
+		    </div>
+		</div>
+      		<div class="col-1"></div>
+      		<label class="col-2 control-label" for="Service">Action Taken <em class="imp_asterisk">*</em> </label>
+      		<div class="col-3">
+      		    <input class="form-control" id="tyreActionTaken_id" placeholder="Action Taken" type="text" ng-model="actionTaken" tabindex="11">
+      		</div>
+  	    </div>
+	    <div class="row-space row">
+      		<label class="col-2 control-label" for="Service">Fitment KM <em class="imp_asterisk">*</em></label>
+      		<div class="col-3">
+      		    <input class="form-control" id="tyreFittedKms_id" placeholder="Kms" type="number"
+                ng-model="fittedKms" tabindex="6">
+      		</div>
+      		<div class="col-1"></div>
+      		<label class="col-2 control-label" for="Service">Tyre Condition <em class="imp_asterisk">*</em> </label>
+      		<div class="col-3">
+		    <select id="tyreScrapId" ng-model="tyreCondition" tabindex="12">
+        		<option></option>
+        		<option value="Beed Separation / Beed Creak">Beed Separation / Beed Creak</option>
+        		<option value="Tyre Burst">Tyre Burst</option>
+        		<option value="Flat Run">Flat Run</option>
+        		<option value="Normal Wear">Normal Wear</option>
+        		<option value="Repair Patch Failure">Repair Patch Failure</option>
+        		<option value="Overinflation">Overinflation</option>
+        		<option value="Full Casing Crack">Full Casing Crack</option>
+        		<option value="Patchy Wear">Patchy Wear</option>
+        		<option value="One Side Wear">One Side Wear</option>
+        		<option value="Wornout up to ply">Wornout up to ply</option>
+        		<option value="Under Inflation">Under Inflation</option>
+        		<option value="Side Wall Through cut">Side Wall Through cut</option>
+        		<option value="Spotty Wear">Spotty Wear</option>
+        		<option value="Crown Impact">Crown Impact</option>
+		    </select>
+      		</div>
+	    </div>
+	    <div class="row-space row">
+      		<label class="col-2 control-label" for="Service">Position <em class="imp_asterisk">*</em> </label>
+      		<div class="col-3">
+		    <select id="tyrePosition_id" ng-model="tyreServiceTyreLocation" tabindex="7" ng-model="location" ng-disabled = "updateTyreServiceStatus">
+        		<option></option>
+        		<option value="FL"> Front Left </option>
+        		<option value="FR"> Front Right </option>
+        		<option value="RLO"> Rear Left Outer </option>
+        		<option value="RLI"> Rear Left Inner </option>
+        		<option value="RRI"> Rear Right Inner </option>
+        		<option value="RRO"> Rear Right Outer </option>
+		    </select>
+		    <!--  <input class="form-control" id="tyreLocation_id" placeholder="Location" type="text"
+			ng-model="location" tabindex="7">-->
+		</div>
+      		<div class="col-1"></div>
+      		<label class="col-2 control-label" for="Service">Scrapped to Party <em class="imp_asterisk">*</em> </label>
+      		<div class="col-3">
+      		    <input class="form-control" id="tyreScrapParty_id" placeholder="Scrapped Party" type="text"
+			ng-model="tyreScrappedParty" tabindex="13">
+      		</div>
+  	    </div>
+	    <div class="row" >
+		<div class="col-6"></div>
+		<div class="col-6">
+		    <button type="submit" id="addtyre_save" class="btn btn-success submit"
+		      ng-show="addTyreServiceStatus" ng-click = "addNewTyreServiceHistory()" tabindex="14"> Save </button>
+		    <button type="submit" id="addtyre_save" class="btn btn-success submit"
+		      ng-show="updateTyreServiceStatus" ng-click = "updateTyreService()" tabindex="15"> Update </button>
+		</div>
+	    </div>
+    	</div> 	<!-- modal body -->
+    </div> 	<!-- modal content -->
+    </div> 	<!-- modal dialog -->
+</div>
+
+<div class="widget-header" style="margin-top: 0.1em;">
+    <!-- <div class=" row ">
+	<div class=" col-md-3 col-sm-3 col-3"> -->
+	    <i class="fa fa-list" aria-hidden="true"></i>
+	    <h3> Tyre Service </h3>
+      <span style="float: right; margin-right: 33px;"> {{nextIndex_services + 1}} -
+        {{nextIndex_services + itemsPerPage_services}} of {{totalItems_services}}</span>
+	<!-- </div>
+    </div> -->
+</div> <!-- /widget-header -->
+
+<div class="widget-content table-responsive">
+  <form>
+    <div class="form-group row ">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="input-group">
+          <div class="input-group-addon"><i class="fa fa-search"></i></div>
+          <input type="text" placeholder= "Search" class="form-control" ng-model="TMSService_searchWord"
+           ng-change = "searchTyreServices()">
+        </div>
+      </div>
+    </div>
+  </form>
+  <table class="table table-fixed table-bordered table-hover" ng-if="TMSTireServiceHistory.length > 0">
+  	<thead class="tablehead">
+	    <tr class="tablehead">
+    		<th class="tableHead-center" >
+    		    <a href="#" > # </a>
+    		</th>
+    		<th class="tableHead-center">
+    		    <a href="#" ng-click="sortType = 'tireNumber'; service_sortReverse = !service_sortReverse">
+    			Tyre Number
+    			<span ng-show="sortType == 'tireNumber' && !service_sortReverse" class="fa fa-caret-down"></span>
+    			<span ng-show="sortType == 'tireNumber' && service_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</th>
+    		<th class="tableHead-center">
+    		    <a href="#" ng-click="sortType = 'vehName'; service_sortReverse = !service_sortReverse">
+    			Vehicle
+    			<span ng-show="sortType == 'vehName' && !service_sortReverse" class="fa fa-caret-down"></span>
+    			<span ng-show="sortType == 'vehName' && service_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</th>
+    		<th class="tableHead-center">
+  		    <a href="#" ng-click="sortType = 'tyreKms'; service_sortReverse = !service_sortReverse">
+      			Tyre Kms
+      			<span ng-show="sortType == 'tyreKms' && !service_sortReverse" class="fa fa-caret-down"></span>
+      			<span ng-show="sortType == 'tyreKms' && service_sortReverse" class="fa fa-caret-up"></span>
+  		    </a>
+    		</th>
+    		<th class="tableHead-center" >
+    		    <a href="#" ng-click="sortType = 'reason'; service_sortReverse = !service_sortReverse">
+    			Reason
+    			<span ng-show="sortType == 'reason' && !service_sortReverse" class="fa fa-caret-down"></span>
+    			<span ng-show="sortType == 'reason' && service_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</th>
+    		<th class="tableHead-center" >
+    		    <a href="#" ng-click="sortType = 'actionTaken'; service_sortReverse = !service_sortReverse">
+    		      Action Taken
+    		      <span ng-show="sortType == 'actionTaken' && !service_sortReverse" class="fa fa-caret-down"></span>
+    		      <span ng-show="sortType == 'actionTaken' && service_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</th>
+    		<th class="tableHead-center">
+    		    <a href="#" ng-click="sortType = 'tyreCondition'; service_sortReverse = !service_sortReverse">
+    		      Tyre Condition
+    		      <span ng-show="sortType == 'tyreCondition' && !service_sortReverse" class="fa fa-caret-down"></span>
+    		      <span ng-show="sortType == 'tyreCondition' && service_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</th>
+    		<th class="tableHead-center">
+    		    <a href="#" ng-click="sortType = 'scrappedToParty'; service_sortReverse = !service_sortReverse">
+    		      Scrapped Party
+    		      <span ng-show="sortType == 'scrappedToParty' && !service_sortReverse" class="fa fa-caret-down"></span>
+    		      <span ng-show="sortType == 'scrappedToParty' && service_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</th>
+    		<th class="tableHead-center">
+    		    <a href="#" > Action </a>
+    		</th>
+	    </tr>
+  	</thead>
+  	<tbody >
+	    <tr ng-repeat="service in TMSTireServiceHistory | orderBy:sortType:service_sortReverse">
+		<td class="tableData-right tablebody-td">{{nextIndex_services + $index + 1}}</td>
+		<td class="tablebody-td">{{ service.tireNumber }} </td>
+		<td class="tablebody-td">{{ service.vehName }} </td>
+		<td class="tableData-right tablebody-td">{{ service.tyreKms }} </td>
+		<td class="tablebody-td">{{ service.reason }}</td>
+		<td class="tablebody-td">{{ service.actionTaken }} </td>
+		<td class="tablebody-td">{{ service.tyreCondition }} </td>
+		<td class="tablebody-td">{{ service.scrappedToParty}}</td>
+		<td class="tableHead-center tablebody-td">
+		    <span data-toggle="tooltip" title="Edit">
+		      <button class="btn btn-primary btn-xs" ng-click="getTyreServiceFormForUpdate(service)">
+			<i class="fa fa-pencil" aria-hidden="true"></i>
+		      </button>
+		    </span>
+		</td>
+	    </tr>
+	    <button class="material-button material-button-toggle add-popup" type="button" ng-click="getTyreServiceFormForAdd()">
+		<span class="fa fa-plus" aria-hidden="true"></span>
+	    </button>
+  	</tbody>
+    </table>
+    <uib-pagination total-items="totalItems_services" ng-model="currentPage_services"
+    items-per-page="itemsPerPage_services" max-size="maxSize_services" ng-change="pageChanged_services()"
+    boundary-link-numbers="true" rotate="true" boundary-links="true"></uib-pagination>
+</div>
+
+<script>
+    var p = $("#depot-popup").prompt21();
+
+    $(".show-popup-depot").on("click", function () {
+	p.getData(function (err, data) {
+	    $(".result").text(JSON.stringify(data, null, 2));
+	});
+    });
+
+    $(".version").text($.fn.prompt21.version);
+
+    function tmstyre_clear() {
+	$('#tyreno_id').val('');
+	$('#tyremakeId').select2('val', '');
+	$('#tyredepotId').select2('val', '');
+	$('#tyrethreaddepthId').val('');
+    }
+
+    $('#tyreRemoveDate_id').datetimepicker({
+        format: 'd-m-Y',
+        onShow: function (ct) {
+            if ($('#tyreRemoveDate_id').hasClass('error'))
+                $('#tyreRemoveDate_id').removeClass('error');
+            this.setOptions({
+                formatDate: 'd-m-Y'
+            });
+        },
+        onChangeDateTime: function (ct) {
+            // $('#tyreRemoveDate_id').datetimepicker({value: moment(ct).format("DD-MM-YYYY") , minDate: ct});//, maxDate: moment(ct).add(5, "days")});
+        },
+        maxDate: moment().format('DD-MM-YYYY'),
+        timepicker: false,
+        value: moment().format("DD-MM-YYYY")
+    });
+
+    $('#tyreFittedDate_id').datetimepicker({
+        format: 'd-m-Y',
+        onShow: function (ct) {
+            if ($('#tyreFittedDate_id').hasClass('error'))
+                $('#tyreFittedDate_id').removeClass('error');
+            this.setOptions({
+                formatDate: 'd-m-Y'
+            });
+        },
+        onChangeDateTime: function (ct) {
+            //$('#tyreFittedDate_id').datetimepicker({value: moment(ct).format("DD-MM-YYYY") , minDate: ct});//, maxDate: moment(ct).add(5, "days")}); -->
+        },
+        maxDate: moment().format('DD-MM-YYYY'),
+        timepicker: false,
+        value: moment().format("DD-MM-YYYY")
+    });
+
+    /* When the user clicks on the button,
+    toggle between hiding and showing the dropdown content */
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+	if (!event.target.matches('.dropbtn')) {
+	    var dropdowns = document.getElementsByClassName("dropdown-content");
+	    var i;
+	    for (i = 0; i < dropdowns.length; i++) {
+		var openDropdown = dropdowns[i];
+		if (openDropdown.classList.contains('show')) {
+		    openDropdown.classList.remove('show');
+		}
+	    }
+	}
+    }
+</script>

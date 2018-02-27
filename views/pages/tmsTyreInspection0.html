@@ -1,0 +1,204 @@
+
+<div class="modal fade" id="showTMSTyreInspectionModalId" role="dialog">
+    <div class="modal-dialog modal-md">
+    <div class="modal-content" >
+	<div class="modal-header">
+	    <h4 class="modal-title" id="modal-title">
+		<img src="img/tms/tyre.png" alt="TMS" width="25" height="20" class="fafont-icon"/>
+		<i class="fafont-icon" ng-show="showAddTyreInspectionForm"> Add Tyre Inspection </i>
+		<i class="fafont-icon" ng-show="showUpdateTyreInspectionForm"> Update Tyre Inspection</i>
+	    </h4>
+	    <button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+	</div>
+	<div class="modal-body">
+	    <div class="form-group row">
+  		<div class="col-1"></div>
+  		<label class="col-3 control-label" for="Inspection">Tyre Number <em class="imp_asterisk">*</em> </label>
+  		<div class="col-6">
+		    <select id="tyreNumberId" ng-model="tireId">
+			<option value=""></option>
+    			<option ng-repeat="tyre in TMSShortTiresList" value="{{tyre.tireId}}">{{tyre.tireNumber}}</option>
+		    </select>
+  		</div>
+	    </div>
+      <div class="form-group row">
+    		<div class="col-1"></div>
+    		<label class="col-3 control-label" for="Inspection">Position <em class="imp_asterisk">*</em> </label>
+    		<div class="col-6">
+  		    <!--<input class="form-control" id="location_id" placeholder="Location" type="text" ng-model="location">-->
+  		     <select id="location_id" ng-model="location">
+          		<option ></option>
+          		<option value="FL"> Front Left </option>
+        		<option value="FR"> Front Right </option>
+        		<option value="RLO"> Rear Left Outer </option>
+        		<option value="RLI"> Rear Left Inner </option>
+        		<option value="RRI"> Rear Right Inner </option>
+        		<option value="RRO"> Rear Right Outer </option>
+  		    </select>
+    		</div>
+	    </div>
+	    <div class="form-group row">
+  		<div class="col-1"></div>
+  		<label class="col-3 control-label" for="Inspection">Kms Reading <em class="imp_asterisk">*</em></label>
+  		<div class="col-6">
+		    <input class="form-control" id="kmsReading_id" placeholder="Kms Reading" type="text" ng-model="kmsReading">
+  		</div>
+	    </div>
+	    <div class="form-group row">
+  		<div class="col-1"></div>
+  		<label class="col-3 control-label" for="Inspection"> Tread Depth (Three Locations) </label>
+  		<div class="col-6 row" style="padding-left: 0px !important; padding-right: 0px !important;">
+		    <div class="col-4">
+    			<input class="form-control" id="tyrethreaddepthId_1" type="text" ng-model="depthLocation1">
+		    </div>
+		    <div class="col-4">
+    			<input class="form-control" id="tyrethreaddepthId_2" type="text" ng-model="depthLocation2">
+		    </div>
+		    <div class="col-4">
+    			<input class="form-control" id="tyrethreaddepthId_3" type="text" ng-model="depthLocation3">
+		    </div>
+  		</div>
+	    </div> <!-- /form-group -->
+	    <div class="form-group row">
+		<div class="col-1"></div>
+		<label class="col-3 control-label" for="Inspection"> Avg Tread Depth</label>
+		<div class="col-6 row">
+		    <div class="col-6">
+			<input class="form-control" id="treadDepth_id" placeholder="Avg Tread Depth" type="text" ng-model="AvgTreadDepth" disabled>
+  		    </div>
+		    <div class="col-6">
+      			<button ng-click="findAvgDepth()" class="btn btn-default">Avg Depth</button>
+  		    </div>
+		</div>
+	    </div> <!-- /form-group -->
+	    <div class="form-group row">
+		<div class="col-1"></div>
+		<label class="col-3 control-label" for="Inspection"> Tyre Pressure in PSI </label>
+		<div class="col-6">
+		    <input class="form-control" id="PSI_id" placeholder="Tyre Pressure" type="text" ng-model="TyrePressure">
+		</div>
+	    </div> <!-- /form-group -->
+	    <div class="row" >
+		<div class="col-4"></div>
+		<div class="col-4">
+		    <button type="submit" id="addtyre_save" class="btn btn-success submit"
+		      ng-show="showAddTyreInspectionForm" ng-click = "addTyreInspection()"> Save </button>
+		    <button type="submit" id="addtyre_save" class="btn btn-success submit"
+		      ng-show="showUpdateTyreInspectionForm" ng-click = "updateTyreInspection()"> Update </button>
+		    <button type="button" id="addtyre_cancel" class="btn btn-default cancel" > Clear </button>
+		</div>
+	    </div>
+	</div>   <!-- modal body -->
+    </div>   	<!-- modal-content -->
+    </div>	<!-- modal-dialog -->
+</div> 	<!-- modal -->
+
+<div class="widget-header" style="margin-top: 0.1em;">
+    <i class="fa fa-list" aria-hidden="true"></i>
+    <h3> Tyre Inspection </h3>
+</div> <!-- /widget-header -->
+
+<div class="widget-content">
+  <form>
+    <div class="form-group row ">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="input-group">
+          <div class="input-group-addon"><i class="fa fa-search"></i></div>
+          <input type="text" placeholder= "Search by vehicle" class="form-control" ng-model="tmsTyreInspection_searchData">
+        </div>
+      </div>
+    </div>
+  </form>
+  <table class="table table-fixed table-bordered table-hover table-responsive" id="tableTyre-Id"
+      ng-if="TMSTireInspectionHistory.length > 0">
+  	<thead>
+	    <tr class="row tablehead">
+    		<td class="col-md-1 col-sm-1 col-1 tableHead-center">
+    		    <a href="#" > S. No </a>
+    		</td>
+    		<td class="col-md-1 col-sm-1 col-1 tableHead-center">
+    		    <a href="#" ng-click="sortType = 'tireNumber'; notif_sortReverse = !notif_sortReverse">
+    			Tyre Number
+    			<span ng-show="sortType == 'tireNumber' && !notif_sortReverse" class="fa fa-caret-down"></span>
+    			<span ng-show="sortType == 'tireNumber' && notif_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</td>
+    		<td class="col-md-2 col-sm-2 col-2 tableHead-center">
+    		    <a href="#" ng-click="sortType = 'inspectionDate'; notif_sortReverse = !notif_sortReverse">
+    			Date of Inspection
+    			<span ng-show="sortType == 'inspectionDate' && !notif_sortReverse" class="fa fa-caret-down"></span>
+    			<span ng-show="sortType == 'inspectionDate' && notif_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</td>
+    		<td class="col-md-1 col-sm-1 col-1 tableHead-center">
+    		    <a href="#" ng-click="sortType = 'location'; notif_sortReverse = !notif_sortReverse">
+    			Location
+    			<span ng-show="sortType == 'location' && !notif_sortReverse" class="fa fa-caret-down"></span>
+    			<span ng-show="sortType == 'location' && notif_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</td>
+    		<td class="col-md-1 col-sm-1 col-1 tableHead-center">
+    		    <a href="#" ng-click="sortType = 'kmsreading'; notif_sortReverse = !notif_sortReverse">
+    			Kms Reading
+    			<span ng-show="sortType == 'kmsreading' && !notif_sortReverse" class="fa fa-caret-down"></span>
+    			<span ng-show="sortType == 'kmsreading' && notif_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</td>
+    		<td class="col-md-3 col-sm-3 col-3 tableHead-center">
+  		    Tread Depth at three Different Locations
+		    <table class="table-fixed table-responsive">
+			<thead><tr class="row">
+			    <td class="col-md-4 col-sm-4 col-4"> <a href="#" > 1 </a>
+			    </td>
+			    <td class="col-md-4 col-sm-4 col-4"> <a href="#" > 2 </a>
+			    </td>
+			    <td class="col-md-4 col-sm-4 col-4"> <a href="#" > 3 </a>
+			    </td>
+			</tr></thead>
+		    </table>
+    		</td>
+    		<td class="col-md-1 col-sm-1 col-1 tableHead-center">
+    		    <a href="#" ng-click="sortType = 'sensorId'; notif_sortReverse = !notif_sortReverse">
+    		      Avg Tread Depth
+    		      <span ng-show="sortType == 'sensorId' && !notif_sortReverse" class="fa fa-caret-down"></span>
+    		      <span ng-show="sortType == 'sensorId' && notif_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</td>
+    		<td class="col-md-1 col-sm-1 col-1 tableHead-center">
+    		    <a href="#" ng-click="sortType = 'createdDateTime'; notif_sortReverse = !notif_sortReverse">
+    		      Tyre Pressure (PSI)
+    		      <span ng-show="sortType == 'createdDateTime' && !notif_sortReverse" class="fa fa-caret-down"></span>
+    		      <span ng-show="sortType == 'createdDateTime' && notif_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</td>
+		<td class="col-md-1 col-sm-1 col-1  tableHead-center">
+		    <a href="#" > Action </a>
+		</td>
+	    </tr>
+  	</thead>
+  	<tbody style="height: 340px !important; display:block;">
+	    <tr class="row" ng-repeat="tyreInspection in TMSTireInspectionHistory | orderBy:sortType:notif_sortReverse | filter:tmsTyreInspection_searchData">
+		<td class="col-md-1 col-sm-1 col-1 tableData-right tablebody-td">{{$index + 1}}</td>
+		<td class="col-md-1 col-sm-1 col-1 tablebody-td">{{ tyreInspection.tireNumber }} </td>
+		<td class="col-md-2 col-sm-2 col-2 tablebody-td">{{ tyreInspection.inspectionDate | date : 'dd-MM-yyyy HH:mm:ss'}} </td>
+		<td class="col-md-1 col-sm-1 col-1 tablebody-td">{{ tyreInspection.location }} </td>
+		<td class="col-md-1 col-sm-1 col-1 tablebody-td tableData-right">{{ tyreInspection.kmsreading }}</td>
+		<td class="col-md-1 col-sm-1 col-1 tablebody-td tableData-right">{{ tyreInspection.depthLocation1}}</td>
+		<td class="col-md-1 col-sm-1 col-1 tablebody-td tableData-right">{{ tyreInspection.depthLocation2}}</td>
+		<td class="col-md-1 col-sm-1 col-1 tablebody-td tableData-right">{{ tyreInspection.depthLocation3}}</td>
+		<td class="col-md-1 col-sm-1 col-1 tablebody-td tableData-right">{{avgFinder(tyreInspection.depthLocation1, tyreInspection.depthLocation2, tyreInspection.depthLocation3)}} </td>
+		<td class="col-md-1 col-sm-1 col-1 tablebody-td tableData-right">{{ tyreInspection.tirePressure}}</td>
+		<td class="col-md-1 col-sm-1 col-1 tablebody-td tableHead-center">
+		    <span data-toggle="tooltip" title="Edit">
+			<button class="btn btn-primary btn-xs" ng-click="getTyreInspectionFormForUpdate(tyreInspection)">
+			    <i class="fa fa-pencil" aria-hidden="true"></i>
+			</button>
+		    </span>
+		</td>
+	    </tr>
+  	</tbody>
+    </table>
+    <button class="material-button material-button-toggle add-popup" type="button" ng-click="getTyreInspectionFormForAdd()">
+	<span class="fa fa-plus" aria-hidden="true"></span>
+    </button>
+</div>

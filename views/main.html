@@ -1,0 +1,148 @@
+
+<div class="animated fadeIn" style="font-size: 0.83rem !important;">
+    <div class="row" style="margin-top: 15px;">
+
+      <div class="col-md-3 col-sm-6 col-12">
+          <div style="cursor:pointer;" ng-click="gotoVehView();" >
+              <div class="info-box">
+                  <span class="info-box-icon bg-blue">
+                    <span class="info-box-number ng-binding" >{{ allVehCount }}</span>
+                  </span>
+                  <div class="info-box-content">
+                      <span class="info-box-text ng-binding">Total Fleet</span>
+                  </div><!-- /.info-box-content -->
+              </div><!-- /.info-box -->
+          </div>
+      </div>
+
+      <div class="col-md-3 col-sm-6 col-12">
+            <div style="cursor:pointer;" ng-click="getVehTyreDetails();" >
+                <div class="info-box">
+                    <span class="info-box-icon bg-orange">
+                			<span class="info-box-number ng-binding" >{{tyreCount_all}}</span>
+            		    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text ng-binding">Total Tyres</span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="" ng-click="getVehTyreInspectionDetail();">
+                <div class="info-box" style="cursor:pointer;" id="rsLampVehilcesListId">
+                    <span class="info-box-icon bg-aqua">
+                			<span class="info-box-number ng-binding" >{{tyreCount_inspections}}</span>
+                    </span>
+                    <div class="info-box-content" ng-click="getVehiclesDetails('RSLampVehiclesList');">
+                        <span class="info-box-text ng-binding" id="rslamp">Inspections </span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+        <!--/.col-->
+
+      	<div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="" ng-click ="getVehTyreServiceDetail();">
+                <div class="info-box" style="cursor:pointer;" id="awlsVehilcesListId">
+                    <span class="info-box-icon bg-danger" >
+                			<span class="info-box-number ng-binding" >{{tyreCount_services}}</span>
+            		    </span>
+                    <div class="info-box-content" ng-click="getVehiclesDetails('AWLSVehiclesList');">
+                        <span class="info-box-text ng-binding">Services </span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+      </div>
+        <!--/.col-->
+	    <div class="row" style="margin-top: 5px;">
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div style="cursor:pointer;" ng-click="getVehTyreDetails('Installed');">
+                <div class="info-box">
+                    <span class="info-box-icon bg-purple">
+                			<span class="info-box-number ng-binding" >{{tyreCount_installed}}</span>
+            		    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text ng-binding">Installed</span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="" ng-click="getVehTyreDetails('Scraped');">
+                <div class="info-box" style="cursor:pointer;" id="OfflineVehilcesListId">
+                    <span class="info-box-icon bg-black">
+                			<span class="info-box-number ng-binding" >{{tyreCount_scraped}}</span>
+            		    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text ng-binding">Scrapped</span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="" ng-click="getVehTyreDetails('InStock');">
+                <div class="info-box" style="cursor:pointer;" id="CANDisconnectedVehilcesListId">
+                    <span class="info-box-icon bg-greens">
+                			<span class="info-box-number ng-binding" >{{tyreCount_instock}}</span>
+            		    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text ng-binding">Instock</span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="" ng-click="getVehTyreDetails('WithoutSensor');">
+                <div class="info-box" style="cursor:pointer;" >
+                    <span class="info-box-icon bg-mustard">
+                      <span class="info-box-number ng-binding" >{{tireCount_withoutSensor}}</span>
+                    </span>
+                    <div class="info-box-content" style="padding-top: 3px !important">
+                        <span class="info-box-text ng-binding">Tyre <br/>Without Sensor</span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+
+        <!--/.col-->
+    </div>
+
+
+  <div style="margin-top: 1.3em;" >
+    <!-- START VISITORS BLOCK -->
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-collapse panel-heading" style="cursor: pointer;">
+            <div class="panel-title-box">
+              <h3> Tyre Pressure & Temperature </h3>
+            </div>
+          </div>
+          <div class="panel-body padding-0" >
+            <div class="hc-pie dashboard-piechart" items="troubledVehChartData" innerid="innerIdForTroubledChart"
+                callback-fn="getTroubledVehicles(id)"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-collapse panel-heading" style="cursor: pointer;">
+            <div class="panel-title-box">
+              <h3> Vehicle Tyre Assignment </h3>
+            </div>
+          </div>
+          <div class="panel-body padding-0" >
+            <div class="hc-pie dashboard-piechart" items="vehTyreAssignmentChartData" innerid="innerIdForvehTyreChart"
+                callback-fn="getSemiAssignedVehicles(id)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

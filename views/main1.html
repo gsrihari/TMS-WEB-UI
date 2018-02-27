@@ -1,0 +1,665 @@
+<div class="animated fadeIn" >
+    <div class="row" style="margin-top: 5px;">
+        <div class="col-md-3 col-sm-6 col-12">
+            <div style="cursor:pointer;" ng-click="getVehiclesDetails('movingVehiclesList');" >
+                    <div class="info-box">
+                        <span class="info-box-icon bg-green"><i class="fa fa-bus icon-text"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text ng-binding">Moving</span>
+                            <span class="info-box-number ng-binding" >{{movingVehiclesCount}}</span>
+                        </div><!-- /.info-box-content -->
+                    </div><!-- /.info-box -->
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div style="cursor:pointer;" ng-click="getVehiclesDetails('HaltedVehiclesList');">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-red"><i class="fa fa-bus icon-text"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text ng-binding">Halted</span>
+                            <span class="info-box-number ng-binding" >{{haltedVehiclesCount}}</span>
+                        </div><!-- /.info-box-content -->
+                    </div><!-- /.info-box -->
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="" ng-click="getVehiclesDetails('OfflineVehilcesList');">
+                    <div class="info-box" style="cursor:pointer;" id="OfflineVehilcesListId">
+                        <span class="info-box-icon bg-black"><i class="fa fa-bus icon-text"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text ng-binding">Offline</span>
+                            <span class="info-box-number ng-binding" >{{offlineVehiclesCount}}</span>
+                        </div><!-- /.info-box-content -->
+                    </div><!-- /.info-box -->
+                </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="" ng-click="getVehiclesDetails('CANDisconnectedVehiclesList');">
+                <div class="info-box" style="cursor:pointer;" id="CANDisconnectedVehilcesListId">
+                    <span class="info-box-icon bg-yellow"><i class="fa fa-bus icon-text"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text ng-binding">CAN Disconnect</span>
+                        <span class="info-box-number ng-binding" >{{CANDisconnectedVehiclesCount}}</span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+        <!--/.col-->
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="" >
+                <div class="info-box" style="cursor:pointer;" id="rsLampVehilcesListId">
+                    <span class="info-box-icon bg-aqua lamp-infobox" id="rslampImg_id"
+                        ng-click="getVehiclesDetails('RSLampVehiclesList');">
+                      <img class="blink_me" src="img/rslamp.png" alt="RS Lamp" width="53" height="53"
+                      style="margin-top:4px;"/>
+                    </span>
+                    <div class="info-box-content" ng-click="getVehiclesDetails('RSLampVehiclesList');">
+                        <span class="info-box-text ng-binding" id="rslamp">RS Lamp <span class="info-box-number ng-binding">{{rsLamp_count}}</span></span>
+                    </div><!-- /.info-box-content -->
+                    <div class="card-footers" ng-click="getViewDetails('RSLampVehiclesList')">
+                	<div class="stats">
+			    <i class="fa fa-eye"></i> view details
+                	</div>
+            	    </div>
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+        <!--/.col-->
+
+	<div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="" >
+                <div class="info-box" style="cursor:pointer;" id="awlsVehilcesListId">
+                    <span class="info-box-icon bg-aqua lamp-infobox" ng-click="getVehiclesDetails('AWLSVehiclesList');">
+			<img class="blink_me" src="img/awls.png" alt="AWLS Lamp" width="53" height="48"
+                      style="margin-top:4px;"/>
+		    </span>
+                    <div class="info-box-content" ng-click="getVehiclesDetails('AWLSVehiclesList');">
+                        <span class="info-box-text ng-binding">AWLS <span class="info-box-number ng-binding" >{{awlsLamp_count}}</span></span>
+                    </div><!-- /.info-box-content -->
+                    <div class="card-footers" ng-click="getViewDetails('AWLSVehiclesList')">
+			<div class="stats">
+			    <i class="fa fa-eye"></i> view details
+			</div>
+		    </div>
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+        <!--/.col-->
+
+       <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="">
+                <div class="info-box" style="cursor:pointer;" id="milVehilcesListId">
+                    <span class="info-box-icon bg-aqua lamp-infobox" ng-click="getVehiclesDetails('MILVehilcesList');"><img src="img/mil.png" alt="MIL" width="43" height="38" style="margin-top:5px;"/></span>
+                    <div class="info-box-content" ng-click="getVehiclesDetails('MILVehilcesList');">
+                        <span class="info-box-text ng-binding">MIL <span class="info-box-number ng-binding" >{{milLamp_count}}</span></span>
+                    </div><!-- /.info-box-content -->
+                    <div class="card-footers" ng-click="getViewDetails('MILVehilcesList')">
+			<div class="stats">
+			    <i class="fa fa-eye"></i> view details
+			</div>
+		    </div>
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+        <!--/.col-->
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="">
+                <div class="info-box" style="cursor:pointer;" id="dtcVehilcesListId">
+                    <span class="info-box-icon bg-aqua lamp-infobox"  ng-click="getVehiclesDetails('DTCVehiclesList');"><img src="img/dtc.png" alt="DTC" width="50" height="50" style="margin-top:5px;"/></span>
+                    <div class="info-box-content"  ng-click="getVehiclesDetails('DTCVehiclesList');">
+                        <span class="info-box-text ng-binding">DTC <span class="info-box-number ng-binding" >{{dtc_count}}</span></span>
+                    </div><!-- /.info-box-content -->
+                    <div class="card-footers" ng-click="getViewDetails('DTCVehiclesList')">
+			<div class="stats">
+			    <i class="fa fa-eye"></i> view details
+			</div>
+		    </div>
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+        <!--/.col-->
+
+         <!-- <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="" ng-controller="cardChartCtrl4">
+                <div class="info-box" style="cursor:pointer;" id="fdsDeviceVehilcesListId">
+                    <span class="info-box-icon bg-aqua"><img src="img/fds-device.png" alt="FDS Device" width="57" height="57"/></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text ng-binding" id="fds_device">FDS Device</span>
+                        <span class="info-box-number ng-binding" >{{fds_device_count}}</span>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+
+        <!-- <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="" ng-controller="cardChartCtrl2">
+                <div class="info-box" style="cursor:pointer;" id="fdsHooterVehilcesListId">
+                    <span class="info-box-icon bg-aqua"><img src="img/fds-hooter.png" alt="FDS Hooter" width="55" height="55"/></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text ng-binding" id="fds_hooter">FDS Hooter</span>
+                        <span class="info-box-number ng-binding" >{{fds_hooter_count}}</span>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+
+        <!-- <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="" ng-controller="cardChartCtrl3">
+                <div class="info-box" style="cursor:pointer;" id="fdsFaultyVehilcesListId">
+                    <span class="info-box-icon bg-aqua"><img src="img/fds-faulty.png" alt="FDS Faulty" width="45" height="45"/></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text ng-binding" id="fds_faulty">FDS Faulty</span>
+                        <span class="info-box-number ng-binding" >{{fds_faulty_count}}</span>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+    </div>
+    <!--/.row-->
+
+    <div>
+       <!-- <div class="card-block">
+            <div class="hc-pie" items="limitedIdeas" style="min-width: 310px; height: 290px; max-width: 600px; margin: 0 auto"></div>
+            <!--<hcPie items="limitedIdeas"> </hcPie>
+        </div>-->
+
+        <!-- START VISITORS BLOCK -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-collapse panel-heading" style="cursor: pointer;">
+                        <div class="panel-title-box">
+                            <h3>FDS Notifications</h3>
+                            <!-- <span>Total Count : 67</span> -->
+                        </div>
+                        <ul class="panel-controls" style="margin-top: 2px;">
+                            <li><a href="#" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+                        </ul>
+                    </div>
+                    <!--<div class="panel-body padding-0">
+                        <div class="hc-pie" items="FDSAlertsChartData" innerid="innerIdForFDS"
+                            callback-fn="notificationListView(id)"
+                            style="min-width: 310px; height: 290px; max-width: 800px; margin: 0 auto">
+                        </div>
+                    </div>-->
+		    <div class="panel-body padding-0" >
+                        <div class="hc-pie dashboard-piechart" ng-if ="FDSAlertsChartData.length > 0" items="FDSAlertsChartData" innerid="innerIdForFDS"
+                            callback-fn="notificationListView(id)">
+                        </div>
+                        <div  class="dashboard-piechart" ng-if ="FDSAlertsChartData.length == 0" style="text-align: center;"> {{FDSAlertsErrorMessage}}
+                        </div>
+                    </div>
+                </div>
+                <!-- END VISITORS BLOCK -->
+            </div>
+
+            <div class="col-md-6">
+              <div class="panel panel-default">
+                  <div class="panel-collapse panel-heading" style="cursor: pointer;">
+                      <div class="panel-title-box">
+                          <h3>ECT Notifications</h3>
+                      </div>
+                      <ul class="panel-controls" style="margin-top: 2px;">
+                          <li><a href="#" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+                      </ul>
+                  </div>
+                  <div class="panel-body padding-0">
+                      <div class="hc-pie dashboard-piechart" items="ECTAlertsChartData" innerid="innerIdForECT"
+                          callback-fn="notificationListView(id)"></div>
+                  </div>
+              </div>
+              <!-- END VISITORS BLOCK -->
+
+                <!-- <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title-box">
+                            <h3>ECT Levels</h3>
+                            <span>Total Count : 67</span>
+                        </div>
+                        <ul class="panel-controls" style="margin-top: 2px;">
+                            <li><a href="#" class="panel-fullscreen"><span class="fa fa-expand"></span></a></li>
+                            <li><a href="#" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-cog"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span> Collapse</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-body padding-0">
+                        <div class="hc-bar" id="ECTLevelChart" items="ECTSeriesData" xAxisData="ECTXAxisData"
+                            style="min-width: 310px; height: 290px; max-width: 600px; margin: 0 auto">
+                        </div>
+                    </div>
+                </div> -->
+                <!-- END VISITORS BLOCK -->
+            </div>
+        </div>
+<!--	<div class="row">
+            <div class="col-md-6">
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                      <div class="panel-title-box">
+                          <h3>Fleet Condition</h3>
+                      </div>
+                      <ul class="panel-controls" style="margin-top: 2px;">
+                          <li><a href="#" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+                          <li class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-cog"></span></a>
+                              <ul class="dropdown-menu">
+                                  <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span> Collapse</a></li>
+                              </ul>
+                          </li>
+                      </ul>
+                  </div>
+                  <div class="panel-body padding-0">
+                      <div class="hc-pie dashboard-piechart" items="FleetConditionChartData" innerid="innerIdForFleetCondition"
+                          callback-fn="getVehiclesDetails(id)"></div>
+                  </div>
+              </div>
+            </div>
+        </div>-->
+    </div>
+    <!--/.card-->
+</div>
+
+<!-- Modal -->
+<div class="modal" id="showVehiclesDetails" role="dialog" >
+  <div class="modal-dialog modal-md" >
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="headingId">{{ heading }}</h4>
+        <span ng-show = "showDTCBarChart" ng-click="showBarChart(0)"> <img src="./img/barChartIcon.png"
+          style="height:35px; width: 50px; cursor: pointer;"/></span>
+        <button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+      </div>
+      <div class="modal-body" >
+        <div class="">
+          <div class="container" ng-show='vehiclesDetails.length > 0'>
+            <form>
+              <div class="form-group row ">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                  <div class="input-group">
+                    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                      <input type="text" class="form-control" placeholder="Search" ng-model="searchData">
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12" style="text-align: center;line-height: 34px;">
+                  <span style="float: right;"><i class="fa fa-bus"></i> Total Records : {{vehiclesDetails.length}} </span>
+                </div>
+              </div>
+            </form>
+            <table class="table table-fixed table-bordered table-striped table-responsive" id="vehicleTable-id">
+              <thead style="display:block;">
+                <tr class="row">
+                  <td class="col-md-2 col-sm-2 col-2 tableHead-center">
+                    <a href="#">
+                      S. No
+                    </a>
+                  </td>
+                  <td class="col-md-3 col-sm-3 col-3 tableHead-center">
+                    <a href="#" ng-click="sortType = 'veh_name'; sortReverse = !sortReverse">
+                      Vehicle Name
+                      <span ng-show="sortType == 'veh_name' && !sortReverse" class="fa fa-caret-down"></span>
+                      <span ng-show="sortType == 'veh_name' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                  </td>
+                  <td class="col-md-3 col-sm-3 col-3 tableHead-center">
+                    <a href="#" ng-click="sortType = 'VehParamValues[0].value'; sortReverse = !sortReverse">
+                      {{ columnHeading }}
+                      <span ng-show="sortType == 'VehParamValues[0].value' && !sortReverse" class="fa fa-caret-down"></span>
+                      <span ng-show="sortType == 'VehParamValues[0].value' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                  </td>
+                  <td class="col-md-4 col-sm-4 col-4 tableHead-center">
+                    <a href="#" ng-click="sortType = 'veh_updated_time'; sortReverse = !sortReverse">
+                    {{datetimeHeading}}
+                      <span ng-show="sortType == 'veh_updated_time' && !sortReverse" class="fa fa-caret-down"></span>
+                      <span ng-show="sortType == 'veh_updated_time' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                  </td>
+                </tr>
+              </thead>
+
+              <tbody style="height:340px !important; display:block;">
+                <tr class="row" ng-repeat="vehicle in vehiclesDetails | orderBy:sortType:sortReverse | filter:searchData">
+                  <td class="col-md-2 col-sm-2 col-2">{{$index + 1}}</td>
+                  <td class="col-md-3 col-sm-3 col-3" ng-click="loadVehMomentModal(vehicle);" style="cursor: pointer;">{{ vehicle.veh_name }}</td>
+                  <td class="col-md-3 col-sm-3 col-3">
+		                <button ng-if="vehicle.VehParamValues[0].pid == 10024"
+                      ng-click="getFCLDescription(vehicle.VehParamValues[0].value)" id="fcdListBtn"
+                      class="btn btn-info-outline" type="button">
+                      {{ vehicle.VehParamValues[0].value | fclFIlter}}
+                    </button>
+          			    <span ng-if="vehicle.VehParamValues[0].pid != 10024">
+                      {{ vehicle.VehParamValues[0].value}}
+                    </span>
+            			</td>
+                  <td class="col-md-4 col-sm-4 col-4">{{ vehicle.veh_updated_time }}</td>
+                </tr>
+              </tbody>
+
+            </table>
+
+          </div>
+          <div ng-show = "vehiclesDetails.length == 0">
+      	    No vehicles to display.
+          </div>
+        </div>
+      </div> <!-- End of model-body -->
+    <!--  <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>-->
+    </div>
+  </div>
+</div><!-- End of Modal -->
+
+<!-- Modal -->
+<div class="modal" id="showViewDetails" role="dialog" >
+  <div class="modal-dialog modal-md" >
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="headingId">{{ showViewDetails_heading }}</h4>
+        <span ng-show = "showDTCBarChart" ng-click="showBarChart(1)"> <img src="./img/barChartIcon.png"
+          style="height:35px; width: 50px; cursor: pointer;"/></span>
+        <button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+      </div>
+      <div class="modal-body" >
+        <div class="">
+          <div class="container" ng-show='viewVehDetails.length > 0'>
+          	<form>
+    			    <div class="form-group row ">
+    			      <div class="col-md-12 col-sm-12 col-xs-12">
+          				<div class="input-group">
+          				  <div class="input-group-addon"><i class="fa fa-search"></i></div>
+        				    <input type="text" class="form-control" placeholder="Search" ng-model="searchData">
+          				</div>
+    			      </div>
+    			    </div>
+      			</form>
+            <table class="table table-fixed table-bordered table-striped table-responsive" id="viewTable-id">
+              <thead style="display:block;">
+                <tr class="row">
+                  <td class="col-md-2 col-sm-2 col-2 lamp-table-head">
+                    <a href="#" >
+                      S. No
+                    </a>
+                  </td>
+                  <td class="col-md-3 col-sm-3 col-3 tableHead-center">
+                    <a href="#" ng-click="sortType = 'veh_name'; sortReverse = !sortReverse">
+                      Vehicle Name
+                      <span ng-show="sortType == 'veh_name' && !sortReverse" class="fa fa-caret-down"></span>
+                      <span ng-show="sortType == 'veh_name' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                  </td>
+                  <td class="col-md-3 col-sm-3 col-3 tableHead-center">
+                    <a href="#" ng-click="sortType = 'value'; sortReverse = !sortReverse">
+                      Value
+                      <span ng-show="sortType == 'value' && !sortReverse" class="fa fa-caret-down"></span>
+                      <span ng-show="sortType == 'value' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                  </td>
+                  <td class="col-md-4 col-sm-4 col-4 tableHead-center">
+                    <a href="#" ng-click="sortType = 'veh_updated_time'; sortReverse = !sortReverse">
+                    Device Date time
+                      <span ng-show="sortType == 'veh_updated_time' && !sortReverse" class="fa fa-caret-down"></span>
+                      <span ng-show="sortType == 'veh_updated_time' && sortReverse" class="fa fa-caret-up"></span>
+                    </a>
+                  </td>
+                </tr>
+              </thead>
+
+              <tbody style="height:340px !important; display:block;">
+                <tr class="row" ng-repeat="vehicle in viewVehDetails | orderBy:sortType:sortReverse | filter:searchData">
+                  <td class="col-md-2 col-sm-2 col-2">{{$index + 1}}</td>
+                  <td class="col-md-3 col-sm-3 col-3" ng-click="loadVehMomentModal(vehicle);"
+                      style="cursor: pointer;">{{ vehicle.veh_name }}</td>
+                  <td class="col-md-3 col-sm-3 col-3">
+            		    <button ng-if="vehicle.pid == 10024" ng-click="getFCLDescription(vehicle.value)" class="btn btn-info-outline" type="button">
+                                {{ vehicle.value | fclFIlter}}
+            		    </button>
+                    <span ng-if="vehicle.pid != 10024">{{ vehicle.value}}</span>
+                  </td>
+                  <td class="col-md-4 col-sm-4 col-4">{{ vehicle.veh_updated_time}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div ng-show = "viewVehDetails.length == 0">
+            No vehicles to display.
+          </div>
+        </div>
+      </div> <!-- End of model-body -->
+    </div>
+  </div>
+</div><!-- End of Modal -->
+
+<!-- Modal -->
+<!-- Card view -->
+<div class="modal" id="cardViewVehDetails" role="dialog">
+  <div class="modal-dialog modal-lg" >
+    <!-- Modal content-->
+    <div class="modal-content" style="border: none !important;">
+      <div class="modal-header">
+  			<h4 class="modal-title" id="headingId">{{ multiParam_heading }}</h4>
+  			<!--<span>Total Records : {{cardViewVehData.length}}</span>-->
+  			<button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+      </div>
+    </div>
+
+    <div class="modal-content-body">
+			<div class="row card-search">
+		    <div class="col-md-12 col-sm-12 col-12">
+  				<div class="input-group">
+				    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+				    <input type="text" class="form-control" placeholder="Search" ng-model="table_searchData">
+  				</div>
+		    </div>
+			</div>
+			<div class="modal-body card-contentscroll">
+			    <div class="row">
+				<div class="col-md-4 col-sm-6 col-12" ng-repeat="vehicleData in cardViewVehData
+					    | orderBy: '-veh_updated_time' | filter:table_searchData">
+				    <div class="listview-info-box">
+    					<div class="fleetcndn-header">
+    					  <div class="row">
+    					      <div class="col-md-3 col-sm-3 col-3" style="margin-top:10px;">
+    						  <div class="display-fleetcndn" ng-click="loadVehMomentModal(vehicleData);"
+                      style="cursor: pointer;">
+    						      <span style="cursor: pointer;">{{vehicleData.veh_name}}</span>
+    						  </div>
+    					      </div>
+    					      <div class="col-md-8 col-sm-7 col-7 location-updatetime">
+    						  <i class="fa fa-map-marker" aria-hidden="true"> {{vehicleData.location}}</i><br/>
+    						  <i class="icon icon-speedometer">
+    						    <span ng-class="vehicleData.speed <= 3 ? 'speedhalt' : 'speednormal'"> {{ vehicleData.speed }}</span>
+    						  </i><br/>
+    						  <i class="fa fa-clock-o" aria-hidden="true"> {{vehicleData.veh_updated_time}}</i>
+    					      </div>
+    					  </div>
+    					</div>
+    					<div class="info-box-table">
+    					    <div class="row">
+    					      <div class="col-md-12 col-sm-12 col-12" style="margin-top:10px;"
+    						     ng-repeat=" paramValue in vehicleData.VehParamValues | orderBy: 'pid'"
+    						     ng-show=" paramValue.pid != 10000 && paramValue.pid != 10001
+    						      && paramValue.pid != 10002 && paramValue.pid != 10023">
+        						  <div class="row">
+      						      <!-- <div class="col-md-6 col-sm-8 col-6" ng-if="paramValue.pid == 10">
+      							  <span class="param-head">
+      							    {{HashMapParameter[paramValue.pid].parameter_short_name}} &deg;C
+      							  </span>
+						      </div> -->
+    						      <div class="col-md-6 col-sm-6 col-6">
+        							  <span class="param-head">
+        							    {{hashMapParameter[paramValue.pid].parameter_name}}
+        							     {{hashMapParameter[paramValue.pid].parameter_unit}}
+        							  </span>
+    						      </div>
+    						      <div class="col-md-6 col-sm-6 col-6" >
+        							  <span>: </span>
+								  <button ng-if="paramValue.pid == 10024" ng-click="getFCLDescription(paramValue.value)" id="fcdListBtn" class="btn btn-info-outline" type="button">
+
+                          {{ paramValue.value | fclFIlter}}
+                        </button>
+        							  <span ng-if="paramValue.pid != 10024">{{ paramValue.value}}</span>
+    						      </div>
+      						  </div>
+  					      </div>
+  					    </div>
+    					</div>
+				    </div><!-- /listview-info-box -->
+  				</div>
+		    </div>
+		    <div ng-show = "cardViewVehData.length == 0">
+		      No vehicles to display.
+		    </div>
+			</div> <!-- End of model-body -->
+    </div> <!--modal-content-body -->
+  </div> <!-- End modal dialog -->
+</div><!-- End of Modal -->
+
+
+<!-- Vehicle moment popup -->
+<div class="modal" id="vehMomentModalId" tabindex="-1" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" >
+      <div class="modal-header">
+	  <h4 class="modal-title" id="headingId">Vehicle moment</h4>
+          <button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+      </div>
+      <div class="modal-body" style="height: 490px !important;">
+        <div class="container animated fadeIn">
+          <div id="cd-google-map">
+            <div id="googleMap1" style="overflow: hidden;"></div>
+            <!-- <div id="googleMap" style="position: relative; overflow: hidden;"></div> -->
+            <div id="cd-zoom-in"></div>
+            <div id="cd-zoom-out"></div>
+            <div id="map-list-view-aside">
+              <span id="map-list-view-aside-close"></span>
+              <div id="map-list-view-aside-header" class="hidden"></div>
+              <div class="row map-sidepop-header">
+                <div id="map-list-view-aside-content-vehicle" class="col-md-3 col-sm-3 col-3 map-sideview-vehicle pull-left hidden"></div>
+                <div id="map-list-view-aside-content-vts" class="col-md-12 col-sm-12 col-12 map-sideview-head pull-left hidden"></div>
+              </div>
+              <div id="map-list-view-aside-content-div" class="listview-info-box pull-left hidden"></div>
+            </div>
+            <div id="vehicle-list-view-aside">
+              <span id="vehicle-list-view-aside-close"></span>
+              <div id="vehicle-list-view-aside-header" class="hidden"></div>
+              <div class="row">
+                <div id="vehicle-list-view-aside-content-vehicle" class="col-md-3 col-sm-3 col-3  pull-left hidden"></div>
+                <div id="vehicle-list-view-aside-content-vts" class="col-md-12 col-sm-12 col-12  pull-left hidden"></div>
+              </div>
+              <div id="vehicle-list-view-aside-content-div" class="listview-info-box pull-left hidden"></div>
+            </div>
+
+            <img id="ImgLoading" src="img/cube.svg" width="50" height="50" alt="Loading"/>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- Map popup -->
+<div class="modal" id="mapViewModal">
+  <div class="modal-dialog modal-lg">
+      <div class="modal-content" style="height: 400px !important;">
+          <div class="modal-header">
+		<h4 class="modal-title" id="headingId">Fault Code Description</h4>
+              <button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+          </div>
+          <div class="modal-body modals-body">
+
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+      </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- fault code description popup -->
+<div class="modal" id="fcDescModal" tabindex="-1">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content" style="height: 400px !important;">
+      <div class="modal-header">
+          <h4 class="modal-title" id="headingId">Fault Code Description</h4>
+          <button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+      </div>
+      <div class="modal-body modals-body">
+        <table class="table table-fixed table-bordered table-striped table-responsive" id="dtcdescription-id"
+         ng-show = "fcListDescription.length > 0">
+          <thead style="display:block;">
+            <tr class="row">
+              <td class="col-md-1 col-sm-1 col-1 tableHead-center">
+                <a href="#">
+                  S. No
+                </a>
+              </td>
+              <td class="col-md-2 col-sm-2 col-2 tableHead-center">
+                <a href="#">
+                  Cummins Fault Code
+                </a>
+              </td>
+              <td class="col-md-9 col-sm-9 col-9 tableHead-center">
+                <a href="#" >
+                  Cummins Description
+                </a>
+              </td>
+            </tr>
+          </thead>
+          <tbody style="height:200px !important; display:block;">
+            <tr class="row" ng-repeat="fcDesc in fcListDescription | orderBy:sortType:sortReverse | filter:searchData">
+              <td class="col-md-1 col-sm-1 col-1">{{$index + 1}}</td>
+              <td class="col-md-2 col-sm-2 col-2">{{ fcDesc.CumminsFaultCode }}</td>
+              <td class="col-md-9 col-sm-9 col-9">{{ fcDesc.Cummins_Description }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div ng-hide="fcListDescription.length > 0">{{fcListDescription.length}}
+          <div id="fcdDataTable"></div>
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal DTC Bar Chart -->
+<div class="modal" id="DTCBarChartModalId" role="dialog" >
+  <div class="modal-dialog modal-md" >
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="headingId">DTC Bar Chart</h4>
+        <button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+      </div>
+      <div class="modal-body" >
+        <div class="">
+          <div class="container" >
+            <div class="panel-body padding-0" ng-if="showDTCBarChart">
+                <div id="idForDTCBarChart" style="margin: 0 auto"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- End of model-body -->
+  </div>
+</div>
+
+<script src="js/plugins.js"></script>
+<script src="js/actions.js"></script>

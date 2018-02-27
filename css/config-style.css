@@ -1,0 +1,28 @@
+.tabHead {
+    border: 1px solid #ddd;
+    border-bottom: none !important;
+}
+
+.uib-tab a {
+    border: 1px solid #000;
+}
+  
+.uib-tab.active a {
+   background-color: #00C0EF !important;
+   color: #fff;
+}
+
+/* Createuse table*/
+#conf_createuser_getresult head{
+  width: 100%;
+}
+#conf_createuser_getresult tbody{
+  overflow-y:auto;
+  width: 100%;
+}
+#conf_createuser_getresult tbody td {
+  float:left;
+}
+#conf_createuser_getresult thead tr th{
+  float:left;
+}

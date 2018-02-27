@@ -1,0 +1,53 @@
+.cd-pricing-switcher {
+  text-align: center;
+}
+.cd-pricing-switcher .fieldset {
+  display: inline-block;
+  position: relative;
+  padding: 2px;
+  border-radius: 50em;
+  border: 1px solid #225b78;
+}
+.cd-pricing-switcher input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+.cd-pricing-switcher label {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  float: left;
+  width: 60px;
+  height: 30px;
+  line-height: 40px;
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: #FFFFFF;
+}
+.cd-pricing-switcher .cd-switch {
+  /* floating background */
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  left: 2px;
+  height: 40px;
+  width: 60px;
+  background-color: #0c1f28;
+  border-radius: 50em;
+  -webkit-transition: -webkit-transform 0.5s;
+  -moz-transition: -moz-transform 0.5s;
+  transition: transform 0.5s;
+}
+.cd-pricing-switcher input[type="radio"]:checked + label + .cd-switch,
+.cd-pricing-switcher input[type="radio"]:checked + label:nth-of-type(n) + .cd-switch {
+  /* use label:nth-of-type(n) to fix a bug on safari with multiple adjacent-sibling selectors*/
+  -webkit-transform: translateX(90px);
+  -moz-transform: translateX(90px);
+  -ms-transform: translateX(90px);
+  -o-transform: translateX(90px);
+  transform: translateX(90px);
+}
+
+.no-js .cd-pricing-switcher {
+  display: none;
+}

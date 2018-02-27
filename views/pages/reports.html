@@ -1,0 +1,201 @@
+<div class="animated fadeIn">
+  <span class="report-head">{{selectedReportName}}</span>
+  <div class="table-head-div report-panel">
+    <div class="row">
+      <!-- Vehicle / Deport selector -->
+      <div class="col-md-3 col-sm-6 col-xs-12 report-select" >
+          <select class="select2-style" id="selectVehChoice"  ng-model="vehicleChoice">
+            <option></option>
+            <option value="1"> Based on Vehicle </option>
+            <option value="2"> Based on Depot</option>
+          </select>
+      </div>
+      <!-- Vehicle selector -->
+      <div class="col-md-3 col-sm-6 col-xs-12 report-select" ng-show="vehicleChoice == 1">
+          <select id="selectVehicle" class="select2-style" ng-model="selectedVehIds_report" multiple="multiple">
+            <option ng-repeat="vehicle in vehiclesList | orderBy : 'veh_name'" value="{{vehicle.veh_id}}">
+              {{vehicle.veh_name}}
+            </option>
+          </select>
+      </div>
+      <!-- Depot selector -->
+      <div class="col-md-3 col-sm-6 col-xs-12 report-select" ng-show="vehicleChoice == 2">
+        <select id="selectDepot" class="select2-style" ng-model="selectedReportDepotId">
+          <option ng-repeat="deport in reportDepotList | orderBy : 'group_code'" value="{{deport.group_id}}">
+            {{deport.group_code}}
+          </option>
+        </select>
+      </div>
+     <!-- select parameter -->
+      <div class="col-md-4 col-sm-6 col-xs-12 report-select" ng-show ="selectedReportId == 1 || selectedReportId == 2">
+          <button type="button" id="idParameterLogCustomButton" class="btn btn-primary"
+            data-toggle="modal" data-target=".bs-example-modal-lg"
+            ng-click="getReportParamsList()"> Customize Parameters
+          </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- from date -->
+      <div class="col-md-3 col-sm-6 col-xs-12 input-group report-select" style="width: 25% !important;" ng-hide="selectedReportId == 2">
+          <input class="form-control" type="text" id="param_ReportStartTime"   placeholder="Start DateTime">
+          <div class="datepicker-icn" style="cursor: pointer;" onclick="$('#param_ReportStartTime').focus();">
+            <i class="fa fa-calendar" style="cursor: pointer"></i>
+          </div>
+      </div>
+      <!-- to date -->
+      <div class="col-md-3 col-sm-6 col-xs-12 input-group report-select" style="width: 25% !important;" ng-hide="selectedReportId == 2">
+          <input class="form-control" id="param_ReportEndTime" type="text" placeholder="End DateTime">
+          <div class="datepicker-icn" style="cursor: pointer;" onclick="$('#param_ReportEndTime').focus();">
+            <i class="fa fa-calendar" style="cursor: pointer"></i>
+          </div>
+      </div>
+      <!-- Notification Log Report - Start Date picker -->
+      <div class="col-md-3 col-sm-6 col-xs-12 input-group report-select" style="width: 25% !important;" ng-show="selectedReportId == 2">
+          <input class="form-control" type="text" id="notif_ReportStartTime"   placeholder="Start DateTime">
+          <div class="datepicker-icn" style="cursor: pointer;" onclick="$('#notif_ReportStartTime').focus();">
+            <i class="fa fa-calendar" style="cursor: pointer"></i>
+          </div>
+      </div>
+      <!-- buttons -->
+      <div class="col-md-5 col-sm-6 col-xs-12 report-select">
+          <button type="button" class="btn btn-info btn-sx" data-dismiss="modal" ng-click="generateReport()">
+            <span class="fa fa-search" > Generate Report </span>
+          </button>
+          &nbsp;&nbsp;
+          <button type="button" class="btn btn-default active btn-sx" ng-click="clearReportHead()">
+            <span class="fa fa-times"> Clear</span>
+          </button>
+      </div>
+    </div>
+    <div class="report-select radiobtn-report">
+      <input type="radio" checked="" name="viewtype" value="1" id="rad1">
+      <label for="rad1" style="cursor: pointer;"> Page View </label>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <input type="radio" name="viewtype" value="2" id="rad2"> 
+      <label for="rad2" style="cursor: pointer;"> Download Excel </label>
+    </div>
+  </div>
+
+  <!-- <div id="ele">
+    <div class="row"> -->
+      <div id = "ReportContainer" >
+      </div>
+    <!-- </div>
+  </div> -->
+  <!-- table-content-div -->
+  <a id="back-to-top" class="btn btn-primary btn-lg back-to-top" role="button" ng-click="Back2Top()">
+    <i class="fa fa-angle-double-up" aria-hidden="true" ></i>
+  </a>
+</div>
+
+<!-- Parameter list in tree model -->
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="parameterTreeModalId">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+        <div class="modal-header report-mdl-head">
+           <div class="param_list">List of Parameters</div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true" class=" close-icn">&times;</span></button>
+        </div>
+        <div class="modal-body modals-body text-left" >
+            <form id="idReportParamSearchSubmit">
+                <input type="search" id="idReportParamSearchValue" />
+                <button type="submit">Search</button>
+            </form>
+            <div id="jstree-container" style="height: 380px; overflow: auto;">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-dismiss="modal" >OK</button>
+        </div>
+    </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function(){
+      $(window).scroll(function () {
+          if ($(this).scrollTop() > 5) {
+              $('#back-to-top').fadeIn();
+          } else {
+              $('#back-to-top').fadeOut();
+          }
+      });
+      $('#ele').scroll(function () {
+          if ($(this).scrollTop() > 5) {
+              $('#back-to-top').fadeIn();
+          } else {
+              $('#back-to-top').fadeOut();
+          }
+      });
+
+      setTimeout(function () {
+        $('body,html').animate({
+              scrollTop: 0
+          }, 300);
+      }, 10);
+
+      //parameter report start and end datetime
+      $('#param_ReportStartTime').datetimepicker({
+          format: 'd-m-Y H:i',
+          onShow: function (ct) {
+              //alert('start');
+              if ($('#param_ReportStartTime').hasClass('error'))
+                  $('#param_ReportStartTime').removeClass('error');
+              this.setOptions({
+                  maxDate: $('#param_ReportEndTime').val() ? $('#param_ReportEndTime').val() : false,
+                  formatDate: 'd-m-Y'
+              });
+          },
+          onChangeDateTime: function (ct) {
+              $('#param_ReportEndTime').datetimepicker({value: moment(ct).format("DD-MM-YYYY") + " " + moment().format("HH:mm"), minDate: ct});//, maxDate: moment(ct).add(5, "days")});
+          },
+          maxDate: moment().format('DD-MM-YYYY'),
+          defaultTime: '00:00',
+          timepicker: true,
+          value: moment().format("DD-MM-YYYY") + " 00:00"
+      });
+
+      $('#param_ReportEndTime').datetimepicker({
+        format: 'd-m-Y H:i',
+        onShow: function (ct) {
+            if ($('#param_ReportEndTime').hasClass('error'))
+                $('#param_ReportEndTime').removeClass('error');
+            this.setOptions({
+                maxDate: $('#param_ReportStartTime').val() ? (moment($('#param_ReportStartTime').val(), 'DD-MM-YYYY').add(2, 'days')).format('DD-MM-YYYY') : false,
+                formatDate: 'd-m-Y'
+            });
+        },
+        onChangeDateTime: function () {
+            if ($('#showReportBtn').attr('disabled') == 'disabled')
+                $('#showReportBtn').attr('disabled', false);
+        },
+        minDate: moment().format('DD-MM-YYYY'),
+        maxDate: moment().format('DD-MM-YYYY'),
+        defaultTime: '23:59',
+        timepicker: true,
+        value: moment().format("DD-MM-YYYY HH:mm")
+    });
+
+    //Notification report start date picker
+    $('#notif_ReportStartTime').datetimepicker({
+        format: 'd-m-Y',
+        onShow: function (ct) {
+            //alert('start');
+            if ($('#param_ReportStartTime').hasClass('error'))
+                $('#param_ReportStartTime').removeClass('error');
+            this.setOptions({
+                maxDate: $('#param_ReportEndTime').val() ? $('#param_ReportEndTime').val() : false,
+                formatDate: 'd-m-Y'
+            });
+        },
+        onChangeDateTime: function (ct) {
+            $('#param_ReportEndTime').datetimepicker({value: moment(ct).format("DD-MM-YYYY") + " " + moment().format("HH:mm"), minDate: ct});//, maxDate: moment(ct).add(5, "days")});
+        },
+        maxDate: moment().format('DD-MM-YYYY'),
+        <!-- defaultTime: '00:00', -->
+        timepicker: false,
+        value: moment().format("DD-MM-YYYY")
+    });
+});
+</script>

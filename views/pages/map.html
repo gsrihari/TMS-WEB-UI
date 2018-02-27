@@ -1,0 +1,111 @@
+<div class="animated fadeIn">
+  <div id="cd-google-map" style=" height: auto;">
+    <!-- <div id="googleMap" style="height: 678px; position: relative; overflow: hidden;"></div> -->
+    <div id="googleMap" style="position: relative; overflow: hidden;"></div>
+    <div id="cd-zoom-in"></div>
+    <div id="cd-zoom-out"></div>
+   <div id="map-list-view-aside">
+        <span id="map-list-view-aside-close"></span>
+        <div id="map-list-view-aside-header" class="hidden"></div>
+        <div class="row map-sidepop-header">
+          <div id="map-list-view-aside-content-vehicle" class="col-md-3 col-sm-3 col-3 map-sideview-vehicle pull-left hidden"></div>
+          <div id="map-list-view-aside-content-vts" class="col-md-12 col-sm-12 col-12 map-sideview-head pull-left hidden"></div>
+        </div>
+          <div id="map-list-view-aside-content-div" class="listview-info-box pull-left hidden"></div>
+
+    </div>
+
+    <div id="vehicle-list-view-aside">
+        <span id="vehicle-list-view-aside-close"></span>
+        <div id="vehicle-list-view-aside-header" class="hidden"></div>
+        <div class="row">
+          <div id="vehicle-list-view-aside-content-vehicle" class="col-md-3 col-sm-3 col-3  pull-left hidden"></div>
+          <div id="vehicle-list-view-aside-content-vts" class="col-md-12 col-sm-12 col-12  pull-left hidden"></div>
+        </div>
+        <div id="vehicle-list-view-aside-content-div" class="listview-info-box pull-left hidden"></div>
+    </div>
+
+    <img id="ImgLoading" src="img/cube.svg" width="50" height="50" alt="Loading"/>
+    <!--<input type="button" id="reset_depot" value="Reset"/>-->
+    <!-- <div id="toggle_map">
+        <input type="radio" name="map-radio" id="rdo-dashboard" value="dashboard" checked="checked">
+        <label for="rdo-dashboard" class="radio-style">Dashboard</label>
+        <br/>
+        <input type="radio" name="map-radio" id="rdo-dtc" value="dtc">
+        <label for="rdo-dtc" class="radio-style">DTC</label>
+    </div>-->
+    <div class="row" style="background-color: #30C09D;">
+      <div class="col-md-8 col-sm-6 col-12">
+          <span class="pull-left">
+            <span id="display_vehicles_list">
+                <span id="map-vehicle-filter-all" class="btn" onclick="FilterMarker('all', 'click');">
+                  <div id="map_total_count_id" class="count_circle" style="color: black"></div>
+                  <div style="width:30px;"><img style="width: 27px;" src="img/home.png" title="All Vehicles" /></div>
+                </span>
+                <span class="space"></span>
+                <span id="map-vehicle-filter-moving" class="btn" onclick="FilterMarker('moving', 'click');">
+                  <div id="map_moving_count_id" class="count_circle" style="color: #124806"></div>
+                  <div style="width:30px;"><img src="img/greenbus.png" title="Moving Vehicles" /></div>
+                </span>
+                <span class="space"></span>
+                <span id="map-vehicle-filter-halted" class="btn" onclick="FilterMarker('halted', 'click');" >
+                  <div id="map_halted_count_id" class="count_circle" style="color: #8D0303"></div>
+                  <div style="width:30px;"><img src="img/redbus.png" title="Halted Vehicles" /></div>
+                </span>
+                <span class="space"></span>
+                <span id="map-vehicle-filter-notworking" class="btn" onclick="FilterMarker('notworking', 'click');FilterVehicle('notworking');">
+                  <div id="map_notwork_count_id" class="count_circle" style="color: black"></div>
+                  <div style="width:30px;"><img src="img/blackbus.png" title="Offline Vehicles" /></div>
+                </span>
+                <!--<span id="map-vehicle-filter-notworking" class="btn">
+                  <div id="map_notwork_count_id" class="count_circle" style="color: black"></div>
+                  <div style="width:30px;"><img src="img/blackbus.png" title="Offline Vehicles" /></div>
+                </span>-->
+                <span class="space"></span>
+                <span id="map-vehicle-filter-disconnected" class="btn" onclick="FilterMarker('canDisconnected', 'click'); FilterVehicle('canDisconnected');" >
+                  <div id="map_CANdisconnect_count_id" class="count_circle" style="color: #f8d600"></div>
+                  <div style="width:30px;"><img src="img/yellowbus.png" title="CAN Disconnected Vehicles" /></div>
+                </span>
+                <!--<span id="map-vehicle-filter-disconnected" class="btn">
+                  <div id="map_CANdisconnect_count_id" class="count_circle" style="color: #f8d600"></div>
+                  <div style="width:30px;"><img src="img/yellowbus.png" title="CAN Disconnected Vehicles" /></div>
+                </span>-->
+                <span class="space"></span>
+                <span id="map-vehicle-filter-input">
+                </span>
+            </span>
+        </span>
+      </div>
+      <div class="col-md-4 col-sm-6 col-12">
+           <span class="pull-right vehicledisplay">
+            <select id="display_selectvehicle_id">
+            </select>
+          </span>
+      </div>
+    </div>
+    <!--<address id="google-map-footer">
+
+
+        <!-- <span  class="pull-right depotvehicledisplay" id="display_depot_id">
+            <select id="display_selectdepot_sysadmin_id" ></select>
+        </span>
+    </address>-->
+  </div>
+
+</div>
+
+
+<!-- fault code description popup -->
+<div class="modal fade" id="fcDescModal" tabindex="-1">
+  <div class="modal-dialog modal-md" >
+    <div class="modal-content" style="height: 400px !important;">
+      <div class="modal-header">
+          <h4 class="modal-title" id="headingId">Fault Code Description</h4>
+          <button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+      </div>
+      <div class="modal-body modals-body">
+        <div id="fcdDataTable"></div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

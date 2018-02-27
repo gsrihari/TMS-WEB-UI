@@ -1,0 +1,56 @@
+<script type = "text/javascript" >
+   function preventBack(){window.history.forward();}
+    setTimeout("preventBack()", 0);
+    window.onunload=function(){null};
+</script>
+<div class = "mapBackground">
+    <div class="logo-img">
+        <img width="110" height="45" src="img/groupten_logo.png" class="logo-img1">
+    </div>
+    <div class="app flex-row align-items-center">
+        <div class="container">
+            <div class="row justify-content-center">
+
+                <div class="col-md-5">
+                    <div class="card-group mb-0">
+                        <div class="card p-4">
+                            <div class="card-block">
+                                <form ng-submit="submitLoginForm()">
+                                    <!--<div><h3>Welcome </h3>Please login</div>-->
+                                    <!--<p class="text-muted"><b>Welcome</b>, Please Sign In to Your Account</p>-->
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-addon"><i class="fa fa-user" aria-hidden="true"></i>
+                                        </span>
+                                        <input type="text" id="uname" class="form-control" placeholder="Username" ng-model = "uname">
+                                    </div>
+                                    <div class="input-group mb-4">
+                                        <span class="input-group-addon"><i class="fa fa-lock" aria-hidden="true"></i>
+                                        </span>
+                                        <input type="password" id="password" class="form-control" placeholder="Password" ng-model = "password">
+                                    </div>
+                                    <div class="input-group mb-4" >
+                                        <span class="input-group-addon"><i class="fa fa-keyboard-o"></i></span>
+                                        <input type="text" id="txtInput" maxlength="6" class="form-control" autocomplete="off" placeholder="Enter below text" ng-model = "captcha"/>
+                                    </div>
+                                    <div class="input-group mb-4" >
+                                        <span class="input-group-addon"><img id="captcha-img-id" class="captcha-img" alt="Captcha Image"/></span>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <span class=""><img src="img/captcha_refresh.png " id="refresh" title="Refresh" class="refreshstyle" alt="" ng-click="getCaptchaImg();"></span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12 login-btn">
+                                            <!--<button type="button" class="btn btn-primary btn-sm btn-block px-4">Login</button>-->
+                                            <!-- <button type="submit" class="btn btn-primary px-4" ng-click="submitLoginForm()">Login</button> -->
+                                            <button type="submit" class="btn btn-primary px-4">Sign in</button>
+                                            <!-- <input type="submit" name=""> -->
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

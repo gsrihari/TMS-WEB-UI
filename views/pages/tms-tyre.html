@@ -1,0 +1,361 @@
+
+<div class="modal" id="showTMSTyreModalId" role="dialog">
+    <div class="modal-dialog modal-md">
+	<div class="modal-content" >
+	    <div class="modal-header">
+		<h4 class="modal-title" id="modal-title">
+		    <img src="img/tms/tyre.png" alt="TMS" width="25" height="20" class="fafont-icon"/>
+		    <i class="fafont-icon" ng-show="addTyreButtonStatus"> Add New Tyre </i>
+		    <i class="fafont-icon" ng-show="updateTyreButtonStatus"> Update Tyre</i>
+		</h4>
+		<button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+	    </div>
+	    <div class="modal-body">
+		<div class="form-group row">
+		    <div class="col-1"></div>
+		    <label class="col-3 control-label" for="tyre">Tyre Number <em class="imp_asterisk">*</em> </label>
+		    <div class="col-5">
+			<input class="form-control" id="tyreno_id" placeholder="Tyre Number" type="text" ng-model="tyreNumber">
+		    </div>
+		</div> <!-- /form-group -->
+		<div class="form-group row">
+		    <div class="col-1"></div>
+		    <label class="col-3 control-label" for="tyre">Make <em class="imp_asterisk">*</em> </label>
+		    <div class="col-5">
+			<select id="tyremakeId" ng-model="tyreMakeId">
+			    <option ng-repeat="tyreMake in TMSTyreMakeList | orderBy : 'tyreMake'" value="{{tyreMake.tyreMakeId}}">{{tyreMake.tyreMake}}</option>
+			</select>
+		    </div>
+		</div> <!-- /form-group -->
+		<div class="form-group row">
+		    <div class="col-1"></div>
+		    <label class="col-3 control-label" for="tyre"> Tyre Type <em class="imp_asterisk">*</em></label>
+		    <div class="col-5">
+			<select id="tyreTypeId" ng-model="TMSTyreType">
+			    <option value=''></option>
+			    <option value='New'> New </option>
+			    <option value='Retreaded'> Retreaded </option>
+			</select>
+		    </div>
+		</div> <!-- /form-group -->
+		<div class="form-group row">
+		    <div class="col-1"></div>
+		    <label class="col-3 control-label" for="tyre">Depot <em class="imp_asterisk">*</em></label>
+		    <div class="col-5">
+			<select id="tyredepotId" ng-model="tyreDepotId">
+			    <option value=''></option>
+			    <option ng-repeat="depot in TMSDepotList | orderBy : 'depotName'" value="{{depot.depotId}}">{{depot.depotName}}</option>
+			</select>
+		    </div>
+		</div> <!-- /form-group -->
+		<div class="form-group row">
+		    <div class="col-1"></div>
+		    <label class="col-3 control-label" for="tyre"> Assign Sensor </label>
+		    <div class="col-5" ng-hide="selectedTyreSensorUID">
+			<select id="sensorId" ng-model="selectedTyreSensorId">
+			    <option value=''></option>
+			    <option ng-repeat="sensor in TMSAllInstockSensors" value="{{sensor.sensorId}}">{{sensor.sensorUID}}</option>
+			</select>
+		    </div>
+		    <div class="col-5" ng-show="selectedTyreSensorUID">
+			<input type="text" value="{{selectedTyreSensorUID}}" disabled/>
+			<img src="img/tms/remove.png" style="cursor: pointer;" alt="Remove Tyre" width="17" height="17" ng-click = "showSensorChangeDiv=!showSensorChangeDiv"/>
+		    </div>
+		</div> <!-- /form-group -->
+		<div class="row" ng-show="showSensorChangeDiv">
+		    <div class="card card-inverse card-primary col-sm-12 col-lg-12" >
+			<div class="card-block pb-3">
+			    <div class="row">
+				<label class="alert-text"> Are you sure you want deallocate sensor {{selectedTyreSensorUID}} ?
+				</label>
+			    </div>
+			    <div class="row">
+				<div class = "col-md-5 col-sm-5 col-12">
+				    Deallocating Sensor Status
+				</div>
+				<div class = "col-md-7 col-sm-7 col-12">
+				    <select id="deallocatedDeviceSelect_id" ng-model="deallocatedSensorStatus">
+			         <option ng-repeat="deviceStatus in DeviceStatusList" value="{{deviceStatus}}">{{deviceStatus}}</option>
+				    </select>
+				</div>
+			    </div>
+			    <br/>
+			    <div class="row">
+				<div class = "col-md-5 col-sm-5 col-1"></div>
+				<div class = "col-md-7 col-sm-7 col-11">
+				    <button type="button" class="btn btn-danger" ng-click = "deallocateSensorFromTyre()">Yes</button>
+				    <button type="button" class="btn btn-default" ng-click = "showSensorChangeDiv = !showSensorChangeDiv">No</button>
+				</div>
+			    </div>
+			</div>
+		    </div>
+		</div>
+		<div class="form-group row">
+		    <div class="col-1"></div>
+		    <label class="col-3 control-label" for="tyre">NSD (mm) <em class="imp_asterisk">*</em></label>
+		    <div class="col-5">
+			<input class="form-control" id="tyrethreaddepthId" placeholder="NSD (mm)" type="text" ng-model="tireThreadDepth">
+		    </div>
+		</div> <!-- /form-group -->
+
+		<!-- Organization -->
+		<div class="form-group row" ng-show="isSysAdmin == true">
+		    <div class="col-1"></div>
+		    <label class="col-3 control-label" for="tmsorg">Organization <em class="imp_asterisk">*</em></label>
+		    <div class="col-5">
+			<select id="tyreOrganizationId" ng-model="TMSTyreOrgId">
+			    <option value=''></option>
+			    <option ng-repeat="org in TMSOrgList" value="{{org.orgId}}">{{org.orgName}}</option>
+			</select>
+		    </div>
+		    <div class="col-2">
+			<button class="btn btn-info show-popup" style="padding:3px 5px; font-size:12px;">
+			    New Organization
+			</button>
+			<div class="popup" style="display: none" id="org-popup">
+			    <form class="form-horizontal">
+				<fieldset>
+				    <legend>Add Organization</legend>
+				    <div class="form-group row">
+					<label class="col-4 control-label" >Organization Name <em class="imp_asterisk">*</em></label>
+					<div class="col-6">
+					    <input name="org" id="create_NewOrg" type="text" class="form-control input-md"
+					      style="margin-left: 5px;" ng-model="TMSVehNewOrgName">
+					</div>
+				    </div>
+				    <div class="form-group row">
+					<label class="col-4 control-label" for="cancel"></label>
+					<div class="col-6">
+					    <button type="button" id="createOrg_cancel" class="btn btn-default cancel">Cancel</button>
+					    <button type="submit" id="createOrg_Ok" class="btn btn-success submit" ng-click="addNewOrg()">Save</button>
+					</div>
+				    </div>
+				</fieldset>
+			    </form>
+			</div>
+		    </div>
+		</div>
+		<!-- Organization end-->
+		<div class="row" >
+		    <div class="col-5"></div>
+		    <div class="col-6">
+			<button type="submit" id="addtyre_save" class="btn btn-success submit"
+			    ng-show="addTyreButtonStatus" ng-click = "AddTyre()"> Save </button>
+			<button type="submit" id="addtyre_save" class="btn btn-success submit"
+			    ng-show="updateTyreButtonStatus" ng-click = "updateTyreDetailsFun()"> Update </button>
+		    </div>
+		</div>
+	    </div>
+	</div>
+    </div>
+</div>
+
+
+
+<div class="animated fadeIn" style="font-size: 0.83rem !important;">
+    <div class="row" style="margin-top: 15px;">
+        <div class="col-md-3 col-sm-6 col-12">
+            <div style="cursor:pointer;" ng-click = "setTyreDetailsType();">
+                <div class="info-box">
+                    <span class="info-box-icon bg-orange">
+                			<span class="info-box-number ng-binding" >{{tyreCount_all}}</span>
+            		    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text ng-binding">Total Tyres</span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div style="cursor:pointer;" ng-click = "setTyreDetailsType('Installed');">
+                <div class="info-box">
+                    <span class="info-box-icon bg-purple">
+                			<span class="info-box-number ng-binding" >{{tyreCount_installed}}</span>
+            		    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text ng-binding">Installed</span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="" ng-click = "setTyreDetailsType('Scraped');">
+                <div class="info-box" style="cursor:pointer;" id="OfflineVehilcesListId">
+                    <span class="info-box-icon bg-black">
+                			<span class="info-box-number ng-binding" >{{tyreCount_scraped}}</span>
+            		    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text ng-binding">Scrapped</span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="" ng-click = "setTyreDetailsType('InStock');">
+                <div class="info-box" style="cursor:pointer;" id="CANDisconnectedVehilcesListId">
+                    <span class="info-box-icon bg-greens">
+                			<span class="info-box-number ng-binding" >{{tyreCount_instock}}</span>
+            		    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text ng-binding">Instock</span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="" ng-click="setTyreDetailsType('WithoutSensor');">
+                <div class="info-box" style="cursor:pointer;" >
+                    <span class="info-box-icon bg-mustard">
+                      <span class="info-box-number ng-binding" >{{tireCount_withoutSensor}}</span>
+                    </span>
+                    <div class="info-box-content" style="padding-top: 3px !important">
+                        <span class="info-box-text ng-binding">Tyre <br/>Without Sensor</span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="widget-header" style="margin-top: 0.1em;">
+    <i class="fa fa-list" aria-hidden="true"></i>
+    <h3> Tyre Details </h3>
+    <span style="float: right; margin-right: 33px;">
+	{{nextIndex_tyres + 1}} - {{nextIndex_tyres + itemsPerPage_tyres}} of {{totalItems_tyres}}
+    </span>
+</div> <!-- /widget-header -->
+
+<div class="widget-content table-responsive ">
+    <form>
+	<div class="form-group row ">
+	    <div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="input-group">
+		    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+		    <input type="text" placeholder= "Search" class="form-control" ng-model="searchStringForTyre" ng-change="searchTyres($event)">
+		</div>
+	    </div>
+	</div>
+    </form>
+
+    <table class="table table-fixed table-bordered table-hover" ng-if="TMSAllTyres.length > 0">
+  	<thead>
+	    <tr class="tablehead">
+    		<th class="tableHead-center" >
+    		    <a href="#" > # </a>
+    		</th>
+    		<th class="tableHead-center" >
+    		    <a href="#" ng-click="sortType = 'tireNumber'; tmsTyre_sortReverse = !tmsTyre_sortReverse">
+    			Tyre Number
+    			<span ng-show="sortType == 'tireNumber' && !tmsTyre_sortReverse" class="fa fa-caret-down"></span>
+    			<span ng-show="sortType == 'tireNumber' && tmsTyre_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</th>
+    		<th class="tableHead-center" >
+    		    <a href="#" ng-click="sortType = 'tireMake'; tmsTyre_sortReverse = !tmsTyre_sortReverse">
+    			Tyre Make
+    			<span ng-show="sortType == 'tireMake' && !tmsTyre_sortReverse" class="fa fa-caret-down"></span>
+    			<span ng-show="sortType == 'tireMake' && tmsTyre_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</th>
+    		<th class="tableHead-center" >
+    		    <a href="#" ng-click="sortType = 'threadDepth'; tmsTyre_sortReverse = !tmsTyre_sortReverse">
+    			NSD (mm)
+    			<span ng-show="sortType == 'threadDepth' && !tmsTyre_sortReverse" class="fa fa-caret-down"></span>
+    			<span ng-show="sortType == 'threadDepth' && tmsTyre_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</th>
+    		<th class="tableHead-center">
+    		    <a href="#" ng-click="sortType = 'tireType'; tmsTyre_sortReverse = !tmsTyre_sortReverse">
+			Tyre Type
+			<span ng-show="sortType == 'tireType' && !tmsTyre_sortReverse" class="fa fa-caret-down"></span>
+			<span ng-show="sortType == 'tireType' && tmsTyre_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</th>
+		<th class="tableHead-center">
+    		    <a href="#" ng-click="sortType = 'totalTyreKM'; tmsTyre_sortReverse = !tmsTyre_sortReverse">
+			Total Tyre KMS
+			<span ng-show="sortType == 'totalTyreKM' && !tmsTyre_sortReverse" class="fa fa-caret-down"></span>
+			<span ng-show="sortType == 'totalTyreKM' && tmsTyre_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</th>
+    		<th class="tableHead-center">
+    		    <a href="#" ng-click="sortType = 'vehName'; tmsTyre_sortReverse = !tmsTyre_sortReverse">
+			Vehicle
+			<span ng-show="sortType == 'vehName' && !tmsTyre_sortReverse" class="fa fa-caret-down"></span>
+			<span ng-show="sortType == 'vehName' && tmsTyre_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</th>
+		<th class="tableHead-center">
+    		    <a href="#" ng-click="sortType = 'status'; tmsTyre_sortReverse = !tmsTyre_sortReverse">
+    			Status
+    			<span ng-show="sortType == 'status' && !tmsTyre_sortReverse" class="fa fa-caret-down"></span>
+    			<span ng-show="sortType == 'status' && tmsTyre_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</th>
+    		<th class="tableHead-center" >
+    		    <a href="#" ng-click="sortType = 'tireUpdatedDateTime'; tmsTyre_sortReverse = !tmsTyre_sortReverse">
+    		      Last Updated Date
+    		      <span ng-show="sortType == 'tireUpdatedDateTime' && !tmsTyre_sortReverse" class="fa fa-caret-down"></span>
+    		      <span ng-show="sortType == 'tireUpdatedDateTime' && tmsTyre_sortReverse" class="fa fa-caret-up"></span>
+    		    </a>
+    		</th>
+    		<th class="tableHead-center">
+    		    <a href="#" > Action </a>
+    		</th>
+	    </tr>
+  	</thead>
+	<tbody >
+	    <tr ng-repeat="tyre in TMSAllTyres | orderBy:sortType:tmsTyre_sortReverse">
+		<td class="tableData-right tablebody-td">{{nextIndex_tyres + $index + 1 }}</td>
+		<td class="tablebody-td">{{ tyre.tireNumber }} </td>
+		<td class="tablebody-td">{{ tyre.tireMake }} </td>
+		<td class="tableData-right tablebody-td">{{ tyre.threadDepth }} </td>
+		<td class="tablebody-td">{{ tyre.tireType }} </td>
+		<td class="tableData-right tablebody-td">{{ tyre.totalTyreKM }} </td>
+		<td class="tablebody-td">{{ tyre.vehName }} </td>
+		<td class="tablebody-td">{{ tyre.status }}</td>
+		<td class="tablebody-td">{{ tyre.tireUpdatedDateTime | date : 'dd-MM-yyyy HH:mm:ss'}}</td>
+		<td class="tableHead-center tablebody-td">
+		    <span data-toggle="tooltip" title="Edit">
+			<button class="btn btn-primary btn-xs" ng-click="getTyreDetailsFormForUpdate(tyre)">
+			    <i class="fa fa-pencil" aria-hidden="true"></i>
+			</button>
+		    </span>
+		</td>
+	    </tr>
+	    <button class="material-button material-button-toggle add-popup" type="button" ng-click="getTyreDetailsFormForAdd()">
+		<span class="fa fa-plus" aria-hidden="true"></span>
+	    </button>
+  	</tbody>
+    </table>
+
+    <uib-pagination total-items="totalItems_tyres" ng-model="currentPage_tyres"
+	items-per-page="itemsPerPage_tyres" max-size="maxSize_tyres" ng-change="pageChanged_tyres()"
+	boundary-link-numbers="true" rotate="true" boundary-links="true">
+    </uib-pagination>
+</div>
+
+<script>
+    var p = $("#org-popup").prompt21();
+
+    $(".show-popup").on("click", function () {
+      p.getData(function (err, data) {
+        $(".result").text(JSON.stringify(data, null, 2));
+	    });
+    });
+
+    $(".version").text($.fn.prompt21.version);
+
+    function tmstyre_clear() {
+      $('#tyreno_id').val('');
+      $('#tyremakeId').select2('val', '');
+      $('#tyredepotId').select2('val', '');
+      $('#tyrethreaddepthId').val('');
+      $('#tyreOrganizationId').select2('val', '');
+    }
+</script>

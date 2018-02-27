@@ -1,0 +1,84 @@
+<header class="app-header navbar" ng-controller = "NavController">
+    <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">&#9776;</button>
+    <a class="navbar-brand" ui-sref="app.main"></a>
+    <ul class="nav navbar-nav d-md-down-none">
+        <li class="nav-item">
+            <a class="nav-link navbar-toggler sidebar-toggler" href="#">&#9776;</a>
+        </li>
+    </ul>
+    <ul class="nav navbar-nav ml-auto d-md-down-none">
+         <!-- <li class="nav-item" ng-show="allVehCount > 0">
+          <div class="nav-item">
+              <span class="tot-fleet"><i class="fa fa-bus" style="color: black"></i> Total fleet : {{ allVehCount }}</span>
+          </div>
+        </li> -->
+        <!-- <li class="nav-item dropdown">
+            <select id="display_selectDeport_id" ng-options="deport.group_id as deport.group_code for deport in deportList | orderBy:'group_code'"
+               ng-model="selectedDeportId" ng-change="depotChanged()">
+             </select>
+        </li> -->
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                <span class="d-md-down-none"><i class="fa fa-user" aria-hidden="true" style="color: black; text-transform: capitalize;">
+               <span class="user-fontName">&nbsp; {{UserName}} &nbsp; </span> </i><i class="fa fa-sort-down" ></i></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" style="cursor: pointer;">
+                <!-- <a class="dropdown-item" data-toggle="modal" ><i class="fa fa-lock"></i> Change Password</a> -->
+                <!-- <a class="dropdown-item" data-toggle="modal" data-target="#showChangePwdId"><i class="fa fa-lock"></i> Change Password</a> -->
+                <a class="dropdown-item" ng-click="logoutFun()"><i class="fa fa-sign-out"></i> Logout</a>
+            </div>
+        </li>
+    </ul>
+</header>
+
+<!-- Change password Modal -->
+<div class="modal fade" id="showChangePwdId" role="dialog" >
+    <div class="modal-dialog modal-md" >
+
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+	    <h4 class="modal-title" id="headingId"> Change Password </h4>
+            <button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div class="table-responsive" id="showVehicleDetailsId">
+                <div class="container">
+                    <div class="row justify-content-center">
+
+                        <div class="col-md-10">
+                            <div class="card-group mb-0">
+                                <div class="card p-4 style="background-color: #fff !important;"">
+                                    <div class="card-block">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Current Password">
+                                        </div>
+                                        <div class="input-group mb-4">
+                                            <input type="password" class="form-control" placeholder="New Password">
+                                        </div>
+                                        <div class="input-group mb-4" >
+                                            <input type="text" class="form-control" placeholder="Confirm Password"/>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-3 login-btn">
+                                                <button type="button" class="btn btn-primary  btn-sm btn-block px-4" > Save </button>
+                              					    </div>
+                              					    <div class="col-3 login-btn">
+                                                <button type="button" class="btn btn-default btn-sm btn-block px-4"> Cancel </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!--<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    </div>-->
+    </div>
+  </div><!-- End of Modal -->

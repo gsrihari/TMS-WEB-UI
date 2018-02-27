@@ -1,0 +1,741 @@
+
+
+<!-- modal for add / update vehicle -->
+<div class="modal" id="showTMSVehicleModalId" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content" >
+    	<div class="modal-header">
+    	  <h4 class="modal-title" id="modal-title">
+    	    <i class="fa fa-bus fafont-icon" aria-hidden="true" ng-show="addVehButtonStatus"> Add Vehicle </i>
+    	    <i class="fa fa-bus fafont-icon" aria-hidden="true" ng-show="updateVehButtonStatus"> Update Vehicle</i>
+    	  </h4>
+	  <button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+    	</div>
+    	<div class="modal-body">
+  	  <div class="form-group row">
+      	    <div class="col-1"></div>
+      	    <label class="col-3 control-label" for="tmsvehicle">Vehicle Name <em class="imp_asterisk">*</em></label>
+            <div class="col-5" >
+      	      <input class="form-control" id="tmsvehicle_id" placeholder="Vehicle Name" type="text" ng-model="TMSVehName" ng-disabled="updateVehButtonStatus">
+      	    </div>
+  	  </div> <!-- /form-group -->
+  	  <!-- Organization -->
+  	  <div class="form-group row" ng-show="isSysAdmin == true">
+      	    <div class="col-1"></div>
+      	    <label class="col-3 control-label" for="tmsorg">Organization <em class="imp_asterisk">*</em></label>
+      	    <div class="col-5">
+    	      <select id="vehicleOrganizationId" ng-model="TMSVehOrgId">
+        	     <option ng-repeat="org in TMSOrgList" value="{{org.orgId}}">{{org.orgName}}</option>
+    	      </select>
+      	    </div>
+      	    <div class="col-2">
+      	      <button class="btn btn-info show-popup" style="padding:3px 5px; font-size:12px;">
+		New Organization
+      	      </button>
+    	      <div class="popup" style="display: none" id="org-popup">
+        	<form class="form-horizontal">
+      		  <fieldset>
+          	    <legend>Add Organization</legend>
+          	    <div class="form-group row">
+        	      <label class="col-4 control-label" >Organization Name <em class="imp_asterisk">*</em></label>
+        	      <div class="col-6">
+            		<input name="org" id="create_NewOrg" type="text" class="form-control input-md"
+            		  style="margin-left: 5px;" ng-model="TMSVehNewOrgName">
+        	      </div>
+          	    </div>
+          	    <div class="form-group row">
+        	      <label class="col-4 control-label" for="cancel"></label>
+        	      <div class="col-6">
+            		<button type="button" id="createOrg_cancel" class="btn btn-default cancel">Cancel</button>
+            		<button type="submit" id="createOrg_Ok" class="btn btn-success submit" ng-click="addNewOrg()">Save</button>
+        	      </div>
+          	    </div>
+      		  </fieldset>
+        	</form>
+    	      </div>
+      	    </div>
+  	  </div>
+      <!-- Organization end-->
+	  <!-- Depot -->
+  	  <div class="form-group row">
+      	    <div class="col-1"></div>
+      	    <label class="col-3 control-label" for="tmsdepot">Depot <em class="imp_asterisk">*</em></label>
+      	    <div class="col-5">
+      	      <select id="vehicledepotId" ng-model="TMSVehDepotId">
+        		    <option ng-repeat="depot in TMSDepotList  | orderBy : 'depotName'" value="{{depot.depotId}}">{{depot.depotName}}</option>
+      	      </select>
+      	    </div>
+      	    <div class="col-2">
+    	      <!-- <button class="btn btn-info show-popup-depot" style="padding:3px 5px; font-size:12px;">New Depot</button> -->
+    		<!-- popup div  -->
+    		<div id="depot-popup" style="display: none">
+        	  <form class="form-horizontal">
+      		    <fieldset>
+          	      <legend>Add Depot</legend>
+          	      <div class="form-group row">
+          		<label class="col-3 control-label" >Depot Name <em class="imp_asterisk">*</em></label>
+          		<div class="col-6" ng-init="newDepotName=''">
+          		  <input name="depot" id="create_NewDepot" type="text" class="form-control input-md"
+            		  style="margin-left: 5px;" ng-model="newDepotName">
+          		</div>
+          	      </div>
+          	      <div class="form-group row">
+        		<label class="col-4 control-label" for="cancel"></label>
+        		<div class="col-6">
+            		  <button type="button" id="createdepot_cancel" class="btn btn-default cancel">Cancel</button>
+            		  <button type="submit" id="createdepot_Ok" class="btn btn-success submit"
+            		    ng-click = "addNewDepot()" >Save</button>
+        		</div>
+          	      </div>
+		    </fieldset>
+        	  </form>
+    		</div> <!-- /popup -->
+      	    </div>
+  	  </div> <!-- /depot end-->
+  	  <div class="form-group row">
+      		<div class="col-1"></div>
+  		    <label class="col-3 control-label" for="tmsrfid" >RFID </label>
+  		    <div class="col-5">
+    		    <span ng-show = "TMSVehRFUID"><input type = "text" disabled ng-model="TMSVehRFUID">
+    		      <img src="img/tms/remove.png" style="cursor: pointer;" alt="Remove Tyre" width="17" height="17" ng-click = "removeBTUID(TMSVehRFUID);"/>
+    		    </span>
+    		    <span ng-hide = "TMSVehRFUID">
+          		    <select id="vehiclerfidId" ng-model="TMSVehRFID">
+                    <option value=''></option>
+              			<option ng-repeat="rfid in TMSAllInstockRFID" value="{{rfid.rfid}}">{{rfid.rfiduid}}</option>
+          		    </select>
+    		    </span>
+      		</div>
+  	    </div> <!-- /form-group -->
+  	  <div class="form-group row">
+      		<div class="col-1"></div>
+  		    <label class="col-3 control-label" for="tmsbluetooth">Bluetooth </label>
+  		    <div class="col-5">
+		    <span ng-show = "TMSVehBControlerUID">
+		      <input type = "text" disabled ng-model="TMSVehBControlerUID">
+		      <img src="img/tms/remove.png" style="cursor: pointer;" alt="Remove Tyre" width="17" height="17" ng-click = "removeBTUID(TMSVehBControlerUID);"/>
+		    </span>
+		    <span ng-hide = "TMSVehBControlerUID">
+      		    <select id="vehiclebluetoothId" ng-model="TMSVehBControlerId">
+          			<option ng-repeat="bCtrl in TMSAllInstockBController" value="{{bCtrl.controllerId}}">{{bCtrl.controllerUID}}</option>
+      		    </select>
+		    </span>
+      		</div>
+  	    </div> <!-- /form-group -->
+  	  <div class="row" >
+      	    <div class="col-5"></div>
+      	    <div class="col-6">
+      	      <button type="submit" id="tms_vehicleId_save" class="btn btn-success submit" ng-show="addVehButtonStatus"
+      		ng-click="addNewVehicle()"> Save </button>
+      	      <button type="submit" id="tms_vehicleId_save" class="btn btn-success submit" ng-show="updateVehButtonStatus"
+      		ng-click="updateVehDetailsFun()"> Update </button>
+	    </div>
+  	  </div>
+    	</div>
+    	<!--<div class="modal-footer">
+    	    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+    	</div>-->
+      </div>
+    </div>
+  </div>
+
+<!-- Tyre assignment modal  -->
+<div class="modal" id="showTyreAssignModalId" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content" >
+    	<div class="modal-header">
+    	  <h4 class="modal-title" id="modal-title">
+    	    <img src="img/tms/tyre.png" alt="TMS" width="25" height="20" class="fafont-icon"/>
+    	    <i class="fafont-icon" aria-hidden="true" > Assign Tyre(s) to {{AssignTyreVehName}} </i>
+    	  </h4>
+	  	  <button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+    	</div>
+    	<div class="modal-body">
+  	    <div class="form-group row">
+          <div class="col-md-1 col-sm-1 col-1"> </div>
+      		<div class="col-md-3 col-sm-3 col-3">
+      		    <label class="control-label" for="FL">Front Left</label>
+          </div>
+      		<div class="col-md-5 col-sm-5 col-5">
+            <span ng-show = "existing_tyreFL">
+              <input type="text" ng-model="existing_tyreFL" disabled/>
+      	      <img src="img/tms/remove.png" style="cursor: pointer;" alt="Remove Tyre" width="17"
+              height="17" ng-click = "deallocateTyre(existing_tyreFL);"/>
+            </span>
+            <span ng-hide = "existing_tyreFL">
+              <select id="FrontLeft_Id" ng-model="FLTyreId" ng-change="showNewTyreServiceForm(FLTyreId, 'FL');">
+                <option value=""></option>
+                <option ng-repeat="tyre in TMSAllTyres" value="{{tyre.tireId}}"
+                  ng-if="tyre.tireId != FRTyreId && tyre.tireId != RLOTyreId && tyre.tireId != RLITyreId && tyre.tireId != RRITyreId && tyre.tireId != RROTyreId">
+                  {{tyre.tireNumber}}
+                </option>
+              </select>
+            </span>
+      		</div>
+  	    </div>
+  	    <div class="form-group row">
+          <div class="col-md-1 col-sm-1 col-1"> </div>
+      		<div class="col-md-3 col-sm-3 col-3">
+        		<label class="control-label" for="FR">Front Right</label>
+          </div>
+          <!-- <div class="col-md-4 col-sm-4 col-4">
+
+          </div> -->
+      		<div class="col-md-5 col-sm-5 col-5">
+            <span ng-show = "existing_tyreFR">
+              <input type="text" ng-model="existing_tyreFR" disabled/>
+	            <img src="img/tms/remove.png" style="cursor: pointer;" alt="Remove Tyre" width="17"
+               height="17" ng-click = "deallocateTyre(existing_tyreFR);"/>
+            </span>
+            <span ng-hide = "existing_tyreFR">
+              <select id="FrontRight_Id" ng-model="FRTyreId" ng-change="showNewTyreServiceForm(FRTyreId, 'FR');">
+                <option value=""></option>
+                <option ng-repeat="tyre in TMSAllTyres" value="{{tyre.tireId}}"
+                  ng-if="tyre.tireId != FLTyreId && tyre.tireId != RLOTyreId && tyre.tireId != RLITyreId && tyre.tireId != RRITyreId && tyre.tireId != RROTyreId">
+                  {{tyre.tireNumber}}
+                </option>
+              </select>
+            </span>
+      		</div>
+        </div>
+  	    <div class="form-group row">
+          <div class="col-md-1 col-sm-1 col-1"> </div>
+      		<div class="col-md-3 col-sm-3 col-3">
+        		<label class="control-label" for="RLO">Rear Left Outer</label>
+          </div>
+          <!-- <div class="col-md-4 col-sm-4 col-4">
+
+          </div> -->
+      		<div class="col-md-5 col-sm-5 col-5">
+            <span ng-show = "existing_tyreRLO">
+              <input type="text" ng-model="existing_tyreRLO" disabled/>
+	      <img src="img/tms/remove.png" style="cursor: pointer;" alt="Remove Tyre" width="17" height="17" ng-click = "deallocateTyre(existing_tyreRLO);"/>
+            </span>
+            <span ng-hide = "existing_tyreRLO">
+              <select id="RearLeftOuter_Id" ng-model="RLOTyreId" ng-change="showNewTyreServiceForm(RLOTyreId, 'RLO');">
+                <option value=""></option>
+                <option ng-repeat="tyre in TMSAllTyres" value="{{tyre.tireId}}"
+                  ng-if="tyre.tireId != FLTyreId && tyre.tireId != FRTyreId && tyre.tireId != RLITyreId && tyre.tireId != RRITyreId && tyre.tireId != RROTyreId">
+                  {{tyre.tireNumber}}
+                </option>
+              </select>
+            </span>
+      		</div>
+  	    </div>
+  	    <div class="form-group row">
+          <div class="col-md-1 col-sm-1 col-1"> </div>
+      		<div class="col-md-3 col-sm-3 col-3">
+        		<label class="control-label" for="RLI">Rear Left Inner</label>
+          </div>
+          <!-- <div class="col-md-4 col-sm-4 col-4">
+
+          </div> -->
+      		<div class="col-md-5 col-sm-5 col-5">
+            <span ng-show = "existing_tyreRLI">
+              <input type="text" ng-model="existing_tyreRLI" disabled/>
+	      <img src="img/tms/remove.png" style="cursor: pointer;" alt="Remove Tyre" width="17" height="17" ng-click = "deallocateTyre(existing_tyreRLI);"/>
+            </span>
+            <span ng-hide = "existing_tyreRLI">
+              <select id="RearLeftInner_Id" ng-model="RLITyreId" ng-change="showNewTyreServiceForm(RLITyreId, 'RLI');">
+                <option value=""></option>
+                <option ng-repeat="tyre in TMSAllTyres" value="{{tyre.tireId}}"
+                  ng-if="tyre.tireId != FLTyreId && tyre.tireId != FRTyreId && tyre.tireId != RLOTyreId && tyre.tireId != RRITyreId && tyre.tireId != RROTyreId">
+                  {{tyre.tireNumber}}</option>
+              </select>
+            </span>
+      		</div>
+  	    </div>
+  	    <div class="form-group row">
+          <div class="col-md-1 col-sm-1 col-1"> </div>
+      		<div class="col-md-3 col-sm-3 col-3">
+        		<label class="control-label" for="RRI">Rear Right Inner</label>
+          </div>
+          <!-- <div class="col-md-4 col-sm-4 col-4">
+
+          </div> -->
+      		<div class="col-md-5 col-sm-5 col-5">
+            <span ng-show = "existing_tyreRRI">
+              <input type="text" ng-model="existing_tyreRRI" disabled/>
+	      <img src="img/tms/remove.png" style="cursor: pointer;" alt="Remove Tyre" width="17" height="17" ng-click = "deallocateTyre(existing_tyreRRI);"/>
+            </span>
+            <span ng-hide = "existing_tyreRRI">
+              <select id="RearRightInner_Id" ng-model="RRITyreId" ng-change="showNewTyreServiceForm(RRITyreId, 'RRI');">
+                <option value=""></option>
+                <option ng-repeat="tyre in TMSAllTyres" value="{{tyre.tireId}}"
+                  ng-if="tyre.tireId != FLTyreId && tyre.tireId != FRTyreId && tyre.tireId != RLOTyreId && tyre.tireId != RLITyreId && tyre.tireId != RROTyreId">
+                  {{tyre.tireNumber}}</option>
+              </select>
+            </span>
+      		</div>
+  	    </div>
+        <div class="form-group row">
+          <div class="col-md-1 col-sm-1 col-1"> </div>
+          <div class="col-md-3 col-sm-3 col-3">
+            <label class="control-label" for="RRO">Rear Right Outer</label>
+          </div>
+      		<div class="col-md-5 col-sm-5 col-5">
+            <span ng-show = "existing_tyreRRO">
+              <input type="text" ng-model="existing_tyreRRO" disabled/>
+	            <img src="img/tms/remove.png" style="cursor: pointer;" alt="Remove Tyre" width="17"
+               height="17" ng-click = "deallocateTyre(existing_tyreRRO);"/>
+            </span>
+            <span ng-hide = "existing_tyreRRO">
+              <select id="RearRightOuter_Id" ng-model="RROTyreId" ng-change="showNewTyreServiceForm(RROTyreId, 'RRO');">
+                <option value=""></option>
+                <option ng-repeat="tyre in TMSAllTyres" value="{{tyre.tireId}}"
+                  ng-if="tyre.tireId != FLTyreId && tyre.tireId != FRTyreId && tyre.tireId != RLOTyreId && tyre.tireId != RLITyreId && tyre.tireId != RRITyreId">
+                  {{tyre.tireNumber}}</option>
+              </select>
+            </span>
+          </div>
+        </div>
+  	    <!-- <div class="row" >
+      		<div class="col-4"></div>
+      		<div class="col-4">
+      	    <button type="submit" class="btn btn-success submit" ng-click="assignTyres()"> Assign </button>
+    		    <button type="button" id="tms_vehicleId_cancel" class="btn btn-default cancel"
+        			onclick="tmsVehicle_clear();" ng-click="tmsVehicleAddingFormClose()"> Clear </button>
+      		</div>
+        </div> -->
+    	</div>
+    </div>
+  </div>
+</div><!-- End of the modal -->
+
+<!-- Allocated tyre details modal -->
+<div class="modal" id="allocatedTyreModalId" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content" >
+    	<div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Confirm Allocate Tyre</h4>
+    	  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+          style="cursor: pointer;">&times;</button>
+      </div>
+    	<div class="modal-body">
+    	  <div>
+    	    <label class="alert-text"> Are you sure you want allocate tire
+    	      <span style="font-weight: 600;">{{allocatedTyreNo}}</span> to vehicle
+    	      <span style="font-weight: 600;">{{allocatedVehNo}}</span> ?
+    	    </label>
+    	  </div>
+    	  <br/>
+        <div class="row row-space">
+          <label class="col-md-3 col-3 control-label" for="Service">Fitment Date <em class="imp_asterisk">*</em></label>
+          <div class="col-md-5 col-5 input-group" style="width: 40% !important;">
+        		<input class="form-control" id="tyreFitmentDate" placeholder="Tyre Removal Date" type="text"
+              style="height: 34px;" tabindex="1">
+        		<div class="datepicker-icn" style="cursor: pointer;height: 34px; padding: 0.5rem !important;"
+              onclick="$('#tyreFitmentDate').focus();">
+        		  <i class="fa fa-calendar" style="cursor: pointer"></i>
+        		</div>
+          </div>
+        </div>
+        <div class="row row-space">
+          <label class="col-md-3 col-3 control-label" for="Service">Fitment KM <em class="imp_asterisk">*</em></label>
+          <div class="col-md-5 col-5">
+          	<input class="form-control" id="tyreFitmentKM" placeholder="Kms" type="text"
+              ng-model = "tyreFitmentKM">
+          </div>
+        </div>
+    	  <br/>
+    	  <div class="row">
+    	    <div class = "col-md-5 col-sm-5 col-5"></div>
+    	    <div class = "col-md-5 col-sm-5 col-5">
+    	      <button type="button" class="btn btn-danger" ng-click = "assignTyreToVehicle();">Yes</button>
+    	      <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+    	    </div>
+    	  </div>
+    	</div> <!-- modal body -->
+    </div> <!-- modal content -->
+  </div> <!-- modal dialog -->
+</div><!-- End of the modal -->
+
+<!-- Deallocate tyre modal -->
+<div class="modal" id="deallocatedTyreStatusModalId" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" >
+    	<div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Confirm Deallocate</h4>
+    	  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+          style="cursor: pointer;">&times;</button>
+      </div>
+  	<div class="modal-body">
+  	  <div>
+  	    <label class="alert-text"> Are you sure you want deallocate tire
+  	      <span style="font-weight: 600;">{{deallocatedTyreNo}}</span> from vehicle
+  	      <span style="font-weight: 600;">{{deallocatedVehNo}}</span> ?
+  	    </label>
+  	  </div>
+	  <br/>
+	  <div class="row">
+	    <div class = "col-md-1 col-sm-12 col-12"></div>
+	    <div class = "col-md-4 col-sm-12 col-12">
+	      Deallocating Tyre Status
+	    </div>
+	    <div class = "col-md-5 col-sm-12 col-12">
+	      <select id="vehicleStatusId" ng-model="deallocatedTyreStatus" tabindex="1">
+      		<option value=""> </option>
+      		<option ng-repeat="tyreStatus in tyreStatusList" value="{{tyreStatus}}">{{tyreStatus}}</option>
+	      </select>
+	    </div>
+	  </div>
+	  <br/>
+    <!-- Tyre fitment details -->
+    <div class="widget-content" style="background-color: rgb(243, 243, 243); margin-bottom: 5px;">
+      <div class="row row-space">
+        <label class="col-md-2 col-5 control-label" for="Service">Fitment Date <em class="imp_asterisk">*</em> </label>
+    		<div class="col-md-3 col-6" >
+    		    <input class="form-control" placeholder="Fitted Date"
+              type="text" style="height: 34px;" ng-model = "lastServicefitmentDate | date : 'dd-MM-yyyy'" disabled>
+    		</div>
+        <div class="col-md-1 col-12"></div>
+        <label class="col-md-2 col-5 control-label" for="Service">Fitted KMS <em class="imp_asterisk">*</em> </label>
+        <div class="col-md-3 col-6">
+          <input class="form-control" id="fitmentKM" placeholder="Action Taken" type="text"
+              ng-model="fittedKms" disabled>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tyre Removal details -->
+	  <div class="widget-content" style="background-color: rgb(243, 243, 243); margin-bottom: 5px;">
+	    <div class="row row-space">
+	      <label class="col-2 control-label" for="Service">Removal Date <em class="imp_asterisk">*</em> </label>
+	      <div class="col-3 input-group" style="width: 25% !important;">
+      		<input class="form-control" id="tyreRemoveDate" placeholder="Tyre Removal Date" type="text"
+            style="height: 34px;" tabindex="2">
+      		<div class="datepicker-icn" style="cursor: pointer;height: 34px; padding: 0.5rem !important;"
+              onclick="$('#tyreRemoveDate').focus();">
+      		  <i class="fa fa-calendar" style="cursor: pointer"></i>
+      		</div>
+	      </div>
+	      <div class="col-1"></div>
+        <label class="col-2 control-label" for="Service">Reason for Removal <em class="imp_asterisk">*</em> </label>
+	      <div class="col-3">
+          <input class="form-control" id="tyreRemoveReason_id" placeholder="Reason" type="text"
+            ng-model="reason" tabindex="4">
+	      </div>
+	    </div>
+	    <div class="row row-space">
+        <label class="col-2 control-label" for="Service">Removal KM <em class="imp_asterisk">*</em></label>
+        <div class="col-3">
+          <input class="form-control" id="tyreRemovedKms_id" placeholder="Kms" type="text"
+            ng-model="tyreRemovedKms" tabindex="3">
+        </div>
+	      <div class="col-1"></div>
+        <label class="col-2 control-label" for="Service">Action Taken <em class="imp_asterisk">*</em> </label>
+        <div class="col-3">
+          <input class="form-control" id="tyreActionTaken_id" placeholder="Action Taken" type="text"
+              ng-model="actionTaken" tabindex="5">
+        </div>
+
+	    </div>
+
+      <div class="row row-space" ng-show = "deallocatedTyreStatus == 'Scraped'">
+	      <label class="col-2 control-label" for="Service">Tyre Condition <em class="imp_asterisk">*</em> </label>
+	      <div class="col-3">
+          <select id="tyreScrapCondition" ng-model="tyreCondition" tabindex="6">
+      		  <option></option>
+      		  <option value="Beed Separation / Beed Creak">Beed Separation / Beed Creak</option>
+      		  <option value="Tyre Burst">Tyre Burst</option>
+      		  <option value="Flat Run">Flat Run</option>
+      		  <option value="Normal Wear">Normal Wear</option>
+      		  <option value="Repair Patch Failure">Repair Patch Failure</option>
+      		  <option value="Overinflation">Overinflation</option>
+      		  <option value="Full Casing Crack">Full Casing Crack</option>
+      		  <option value="Patchy Wear">Patchy Wear</option>
+      		  <option value="One Side Wear">One Side Wear</option>
+      		  <option value="Wornout up to ply">Wornout up to ply</option>
+      		  <option value="Under Inflation">Under Inflation</option>
+      		  <option value="Side Wall Through cut">Side Wall Through cut</option>
+      		  <option value="Spotty Wear">Spotty Wear</option>
+      		  <option value="Crown Impact">Crown Impact</option>
+      		</select>
+	      </div>
+	      <div class="col-1"></div>
+	      <label class="col-2 control-label" for="Service">Scrapped to Party <em class="imp_asterisk">*</em> </label>
+	      <div class="col-3">
+	        <input class="form-control" id="tyreScrapParty_id" placeholder="Scrapped Party" type="text"
+		          ng-model="tyreScrappedParty" tabindex="7">
+      	      </div>
+	    </div>
+	  </div>
+    <!-- Tyre inspection details -->
+    <div class="widget-content" style="background-color: rgb(243, 243, 243); margin-bottom: 5px;">
+      <div class="row row-space">
+        <label class="col-md-2 control-label" for="Service">Tread Depth (Three Locations) </label>
+    		<div class="col-md-2" >
+          <input class="form-control" id="threadDepth1_id" placeholder="Depth 1" type="number"
+            ng-model="depthLocation1" tabindex="8">
+        </div>
+        <div class="col-md-2" >
+          <input class="form-control" id="threadDepth2_id" placeholder="Depth 2" type="number"
+            ng-model="depthLocation2" tabindex="9">
+        </div>
+        <div class="col-md-2" >
+          <input class="form-control" id="threadDepth3_id" placeholder="Depth 3" type="number"
+            ng-model="depthLocation3" tabindex="10">
+        </div>
+        <div class="col-1"></div>
+        <div class="col-md-2" >
+          <input class="form-control" id="avgThreadDepth_id" placeholder="Avg Depth" type="text"
+            ng-model="serviceAvgThreadDepth" disabled>
+        </div>
+      </div>
+      <div class="row row-space">
+        <label class="col-md-2 control-label" for="Service"> Tyre Pressure in PSI </label>
+    		<div class="col-md-3" >
+          <input class="form-control" id="tyreRemoveReason_id" placeholder="Tyre Pressure in PSI" type="number"
+            ng-model="TyrePressure" tabindex="11">
+        </div>
+
+      </div>
+    </div>
+	  <br/>
+	  <div class="row">
+	    <div class = "col-md-5 col-sm-5 col-5"></div>
+	    <div class = "col-md-5 col-sm-5 col-5">
+	      <button type="button" class="btn btn-danger" ng-click = "updateDeallocatedTyreStatus();" tabindex="12">Yes</button>
+	      <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="13">No</button>
+	    </div>
+	  </div>
+	</div> <!-- modal body -->
+      </div> <!-- modal content -->
+    </div> <!-- modal dialog -->
+  </div><!-- End of the modal -->
+
+<!-- Deallocated tyre status modal -->
+<div class="modal" id="deallocatedBTRFIDModalId" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content" >
+	<div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">Confirm Deallocate</h4>
+	  <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="cursor: pointer;">&times;</button>
+        </div>
+    	<div class="modal-body">
+	  <div>
+	    <label class="alert-text"> Are you sure you want deallocate
+	      <span style="font-weight: 600;">{{deallocatedDeviceNo}}</span> from vehicle
+	      <span style="font-weight: 600;">{{deallocatedVehNo}}</span> ?
+	    </label>
+	  </div>
+	  <br/>
+	  <div class="row">
+	    <div class = "col-md-1 col-sm-1 col-1">
+	    </div>
+	    <div class = "col-md-4 col-sm-4 col-4">
+	      Deallocating Tyre Status
+	    </div>
+	    <div class = "col-md-5 col-sm-5 col-5">
+	      <select id="deallocatedDeviceSelect_id" ng-model="deallocatedDeviceStatus">
+		        <option ng-repeat="deviceStatus in DeviceStatusList" value="{{deviceStatus}}">{{deviceStatus}}</option>
+	      </select>
+	    </div>
+	  </div>
+	  <br/>
+	  <div class="row">
+	    <div class = "col-md-5 col-sm-5 col-5"></div>
+	    <div class = "col-md-5 col-sm-5 col-5">
+	      <button type="button" class="btn btn-danger" ng-click = "deallocatedDevice();">Yes</button>
+	      <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+	    </div>
+	  </div>
+	</div>
+    </div>
+  </div>
+</div><!-- End of the modal -->
+
+<div class="row" style="margin-top: 5px;">
+  <div class="col-md-4">
+    <div class="info-box" ng-click="getTMSVehicles('all');" style="cursor:pointer;">
+        <span class="info-box-icon bg-greens">
+	  <span class="info-box-number ng-binding" >{{allVehCount}}</span>
+	</span>
+        <div class="info-box-content">
+            <span class="info-box-text ng-binding">Total fleet</span>
+
+        </div><!-- /.info-box-content -->
+    </div><!-- /.info-box -->
+  </div>
+  <div class="col-md-4">
+    <div class="info-box" ng-click="getTMSVehicles('semi');" style="cursor:pointer;">
+        <span class="info-box-icon bg-danger">
+	  <span class="info-box-number ng-binding" >{{allSemiConfigVehCount}}</span>
+	</span>
+        <div class="info-box-content">
+            <span class="info-box-text ng-binding">Semi config fleet</span>
+        </div><!-- /.info-box-content -->
+    </div><!-- /.info-box -->
+  </div>
+</div>
+
+<!-- Table View -->
+<div class="widget-header" style="margin-top: 0.1em;">
+  <i class="fa fa-list" aria-hidden="true"></i>
+  <h3> Tyres Fitment Details</h3>
+  <span style="float: right; margin-right: 33px;"> {{nextIndex_vehicles + 1}} -
+    {{nextIndex_vehicles + itemsPerPage_vehicles}} of {{totalItems_vehicles}}</span>
+</div> <!-- /widget-header -->
+
+<div class="widget-content table-responsive " >
+  <form>
+    <div class="form-group row ">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="input-group">
+          <div class="input-group-addon"><i class="fa fa-search"></i></div>
+          <input type="text" placeholder= "Search" class="form-control"
+		         ng-model="searchStringForVeh" ng-change = "searchvehicles()">
+        </div>
+      </div>
+    </div>
+  </form>
+  <table class="table table-fixed table-bordered table-hover" >
+    <thead>
+      <tr class="tablehead">
+        <th class="tableHead-center" >
+          <a href="#">
+            #
+          </a>
+        </th>
+        <th class="tableHead-center" ><a href="#" ng-click="sortType = 'vehName'; tmsVeh_sortReverse = !tmsVeh_sortReverse">
+            Vehicle
+          <span ng-show="sortType == 'vehName' && !tmsVeh_sortReverse" class="fa fa-caret-down"></span>
+          <span ng-show="sortType == 'vehName' && tmsVeh_sortReverse" class="fa fa-caret-up"></span>
+          </a>
+        </th>
+        <th class="tableHead-center">
+          <a href="#" data-toggle="tooltip" title="Front Left">
+            FL
+          </a>
+        </th>
+        <th class="tableHead-center">
+          <a href="#" data-toggle="tooltip" title="Front Right">
+            FR
+          </a>
+        </th>
+        <th class="tableHead-center">
+          <a href="#" data-toggle="tooltip" title="Rear Left Outer">
+            RLO
+          </a>
+        </th>
+        <th class="tableHead-center">
+          <a href="#" data-toggle="tooltip" title="Rear Left Inner">
+            RLI
+          </a>
+        </th>
+        <th class="tableHead-center">
+          <a href="#" data-toggle="tooltip" title="Rear Right Inner">
+            RRI
+          </a>
+        </th>
+        <th class="tableHead-center">
+          <a href="#" data-toggle="tooltip" title="Rear Right Outer">
+            RRO
+          </a>
+        </th>
+        <th class="tableHead-center">
+           <a href="#" > Action </a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="vehicle in allVehicles | orderBy:sortType:tmsVeh_sortReverse | filter:tmsVeh_searchData">
+        <td class="tablebody-td tableData-right">{{ nextIndex_vehicles + $index + 1 }}
+        </td>
+        <td class="tablebody-td" title="{{vehicle.veh_UpdatedDateTime | date : 'medium'}}">{{ vehicle.vehName }}
+          <!-- <span class="tooltiptext">{{vehicle.veh_UpdatedDateTime | date : 'medium'}}</span> -->
+        </td>
+        <td ng-repeat="tire in vehicle.tires" ng-if="tire.tirePosition == 'FL'">{{ tire.tireNumber}}</td>
+        <td class="tablebody-td" ng-repeat="tire in vehicle.tires" ng-if="tire.tirePosition == 'FR'">{{ tire.tireNumber }}</td>
+        <td class="tablebody-td" ng-repeat="tire in vehicle.tires" ng-if="tire.tirePosition == 'RLO'">{{ tire.tireNumber }}</td>
+        <td class="tablebody-td" ng-repeat="tire in vehicle.tires" ng-if="tire.tirePosition == 'RLI'">{{ tire.tireNumber }}</td>
+        <td class="tablebody-td" ng-repeat="tire in vehicle.tires" ng-if="tire.tirePosition == 'RRI'">{{ tire.tireNumber }}</td>
+        <td class="tablebody-td" ng-repeat="tire in vehicle.tires" ng-if="tire.tirePosition == 'RRO'">{{ tire.tireNumber }}</td>
+        <td class="tablebody-td tableHead-center" >
+  		    <!-- <span data-toggle="tooltip" title="Edit"> -->
+  		      <button class="btn btn-primary btn-xs" ng-click = "getVehDetailsFormForUpdate(vehicle)" >
+            	<i class="fa fa-pencil" aria-hidden="true"></i>
+  		      </button>
+  		    <!-- </span> -->
+  		    <!-- <span data-toggle="tooltip" title="Assign Tyre"> -->
+  		      <button class="btn btn-warning btn-xs" ng-click = "getTyreDetailsForAssignVehicle(vehicle)">
+        			<img src="img/tms/assign-tyre.png" alt="Assign Tyre" width="12" height="14"/>
+  		      </button>
+  		    <!-- </span> -->
+    		</td>
+      </tr>
+    </tbody>
+    <button class="material-button material-button-toggle add-popup" type="button" ng-click="showVehicleAddingFormForAdd()">
+      <span class="fa fa-plus" aria-hidden="true"></span>
+    </button>
+  </table>
+  <uib-pagination total-items="totalItems_vehicles" ng-model="currentPage_vehicles"
+  items-per-page="itemsPerPage_vehicles" max-size="maxSize_vehicles" ng-change="pageChanged_vehicles()"
+  boundary-link-numbers="true" rotate="true" boundary-links="true"></uib-pagination>
+</div>
+
+<script>
+    var p = $(".popup").prompt21();
+    var p1 = $("#depot-popup").prompt21();
+
+    $(".show-popup").on("click", function () {
+        p.getData(function (err, data) {
+	    $(".result").text(JSON.stringify(data, null, 2));
+	});
+    });
+
+    $(".show-popup-depot").on("click", function () {
+        p1.getData(function (err, data) {
+	    $(".result").text(JSON.stringify(data, null, 2));
+	});
+    });
+    $(".version").text($.fn.prompt21.version);
+
+    function tmsVehicle_clear() {
+      $('#tmsvehicle_id').val('');
+      $('#vehicleOrganizationId').select2('val', '');
+      $('#vehicledepotId').select2('val', '');
+      $('#vehiclerfidId').select2('val', '');
+      $('#vehiclebluetoothId').select2('val', '');
+    }
+
+    $('#tyreFitmentDate').datetimepicker({
+        format: 'd-m-Y',
+        onShow: function (ct) {
+            if ($('#tyreFitmentDate').hasClass('error'))
+                $('#tyreFitmentDate').removeClass('error');
+            this.setOptions({
+                formatDate: 'd-m-Y'
+            });
+        },
+        onChangeDateTime: function (ct) {
+            //$('#tyreFittedDate_id').datetimepicker({value: moment(ct).format("DD-MM-YYYY") , minDate: ct});//, maxDate: moment(ct).add(5, "days")}); -->
+        },
+        maxDate: moment().format('DD-MM-YYYY'),
+        timepicker: false,
+        value: moment().format("DD-MM-YYYY")
+    });
+
+    $('#tyreRemoveDate').datetimepicker({
+        format: 'd-m-Y',
+        onShow: function (ct) {
+            if ($('#tyreRemoveDate').hasClass('error'))
+                $('#tyreRemoveDate').removeClass('error');
+            this.setOptions({
+                formatDate: 'd-m-Y'
+            });
+        },
+        onChangeDateTime: function (ct) {
+            // $('#tyreRemoveDate_id').datetimepicker({value: moment(ct).format("DD-MM-YYYY") , minDate: ct});//, maxDate: moment(ct).add(5, "days")});
+        },
+        maxDate: moment().format('DD-MM-YYYY'),
+        timepicker: false,
+        value: moment().format("DD-MM-YYYY")
+    });
+
+    $('#tyreScrapCondition').select2({
+      placeholder: "Tyre Condition",
+      allowClear: true,
+      width: 230
+    });
+</script>

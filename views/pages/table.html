@@ -1,0 +1,264 @@
+<div class="animated fadeIn">
+
+  <div class="table-head-div notification-panel">
+    <div class="row">
+      <div class="col-md-7 col-sm-7 col-xs-12">
+        <form>
+          <div class="form-group row">
+            <div class="col-md-12">
+              <div class="input-group">
+                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+                  <input type="text" class="form-control" placeholder="Search" ng-model="table_searchData">
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- Section selector -->
+       <div class="col-md-3 col-sm-3 col-xs-12">
+          <select class="selectSection select2-style" id="selectedSectionId"
+              ng-options="section.section_id as section.section_short_name for section in tableViewAllSectionParam"
+              ng-model="selectedSectionId" ng-change="sectionChanged()">
+          </select>
+      </div>
+      <div class="col-md-2 col-sm-2 col-xs-12">
+        <!--<div class="form-group" style="margin-right:5px;">
+          <a title="" data-original-title="" data-placement="bottom" data-toggle="popover" data-title="More Filters"
+              data-container="body" type="button" data-html="true" href="#" id="filtersPop" class="btn btn-grey">
+            <i class="fa fa-filter"></i> Filters
+          </a>
+        </div>-->
+        <a class="btn btn-grey" aria-hidden="true" ng-init="showFilterRow = false"
+          ng-click="showFilterRow = !showFilterRow; clear()" type="button">
+          <i class="fa fa-filter"></i> Filters
+        </a>
+      </div>
+    </div>
+    <div class="row" ng-show="showFilterRow">
+      <div class="col-xs-12"></div>
+      <!--<div class="col-md-12"><hr/></div>-->
+      <div class="col-md-3 col-sm-3 col-xs-12 table-filter" style="margin-left: 15px;">
+          <select id="selectParameter-id" class="selectParameter select2-style"  multiple="multiple" ng-model="selectedPids">
+            <optgroup ng-repeat="section in tableViewAllSectionParam" label="{{section.section_short_name}}">
+            <option ng-repeat="param in section.section_param_list" value="{{param.parameter_id}}">
+              {{param.parameter_short_name}}
+            </option>
+            </optgroup>
+          </select>
+      </div>
+      <div class="col-md-3 col-sm-3 col-xs-12 table-filter" style="margin-left: 20px;">
+          <select id="selectVehicle-id" class="selectVehicle select2-style" ng-model="selectedVehIds" multiple="multiple">
+            <option ng-repeat="(key, value) in vehIdName_HashMap" value="{{key}}">{{value}}</option>
+          </select>
+      </div>
+      <div class="col-md-5 col-sm-5 col-xs-12 table-filter" style="margin-left: 40px;">
+        <div class="form-group row">
+          <div class="col-md-12">
+            <div class="input-group">
+              <center>
+                <button type="button" class="btn btn-info btn-sx" data-dismiss="modal" ng-click="go()">
+                  <span class="fa fa-arrow-right" > Go </span>
+                </button>
+                <button type="button" class="btn btn-default active btn-sx" data-dismiss="modal" ng-click="clearVehIdsAndParamIds()">
+                  <span class="fa fa-times"> Clear</span>
+                </button>
+              </center>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- row -->
+  </div>
+
+  <div class="table-content-div fixed" id="ele" when-scrolled="loadMore()">
+    <div class="row">
+      <!-- | orderBy: 'veh_name' -->
+        <div class="col-md-6 col-sm-6 col-12" ng-repeat="vehicleData in liveTrackingData
+                      | filter:table_searchData">
+            <div class="">
+                <div class="listview-info-box">
+                    <div style="background-color: rgb(242, 242, 242)">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-3 col-3" style="margin-top:10px;">
+                            <div class="display-vehicle">
+                                <span>{{vehicleData.veh_name}}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-7 col-7 location-updatetime">
+                            <i class="fa fa-map-marker" aria-hidden="true"> {{vehicleData.location}}</i><br/>
+                            <i class="icon icon-speedometer">
+                              <span ng-class="vehicleData.speed == 0 ? 'speedhalt' : 'speednormal'"> {{ vehicleData.speed }}</span>
+                            </i><br/>
+                            <i class="fa fa-clock-o" aria-hidden="true"> {{vehicleData.veh_updated_time}}</i>
+                        </div>
+                        <div class="col-md-1 col-sm-2 col-2" style="margin-top:15px;">
+                            <i class="fa fa-bus offline-veh" aria-hidden="true"
+                              ng-show="vehicleData.vehStatus == 1">
+                            </i>
+                            <i class="fa fa-bus CANDisconnected-veh" aria-hidden="true"
+                              ng-show="vehicleData.vehStatus == 2">
+                            </i>
+                            <i class="fa fa-bus moving-veh" aria-hidden="true"
+                              ng-show ="vehicleData.speed > 3 && (vehicleData.vehStatus != 1 && vehicleData.vehStatus != 2)">
+                            </i>
+                            <i class="fa fa-bus halted-veh" aria-hidden="true"
+                              ng-show ="vehicleData.speed <= 3 && (vehicleData.vehStatus != 1 && vehicleData.vehStatus != 2)">
+                            </i>
+                        </div>
+                    </div>
+                    <div class="span1" >
+                        <hr class="horizontal"/>
+                    </div>
+                    </div>
+                    <div class="info-box-table">
+                        <div class="row">
+                          <div class="col-md-6 col-sm-12 col-12" style="margin-top:10px;"
+                                 ng-repeat=" paramValue in vehicleData.VehParamValues | orderBy: 'pid'"
+                                 ng-show=" paramValue.pid != 10000 && paramValue.pid != 10001
+                                  && paramValue.pid != 10002 && paramValue.pid != 10023">
+                              <div class="row" ng-show ="paramValue.value != '[]'">
+                                  <div class="col-md-6 col-sm-8 col-6" ng-if="paramValue.pid == 10 || paramValue.pid == 11">
+                                      <span class="param-head">
+                                        {{hashMapParamIdName[paramValue.pid].parameter_short_name}} (&deg;C)
+                                      </span>
+                                  </div>
+                                  <div class="col-md-6 col-sm-8 col-6" ng-if="paramValue.pid != 10 && paramValue.pid != 11">
+                                      <span class="param-head">
+                                        {{hashMapParamIdName[paramValue.pid].parameter_short_name}}
+                                         {{hashMapParamIdName[paramValue.pid].parameter_unit}}
+
+                                      </span>
+                                  </div>
+                                  <div class="col-md-6 col-sm-4 col-6">
+                                      <span>: </span>
+                                      <!--<span  ng-if ="paramValue.pid == 10024" ng-click="getFCLDescription(paramValue.value)">-->
+                                        <button ng-if="paramValue.pid == 10024" ng-click="getFCLDescription(paramValue.value)" class="btn btn-info-outline" type="button">{{ paramValue.value | fclFIlter_2}}</button>
+
+                                      <span  ng-if ="paramValue.pid == 39 || paramValue.pid == 15"
+                                            ng-class="paramValue.value == 'Lamp On' ? 'lampOn' : 'lampOff'">{{ paramValue.value}}</span>
+
+                                      <span  ng-if ="paramValue.pid == 10013 || paramValue.pid == 10014"
+                                            ng-class="paramValue.value == 'ON' ? 'lampOn' : 'default-val'">{{ paramValue.value}}</span>
+
+                                      <span  ng-if ="paramValue.pid == 10012"
+                                            ng-class="paramValue.value == 'OFF' ? 'lampOn' : 'default-val'">{{ paramValue.value}}</span>
+
+                                      <span  ng-if ="paramValue.pid == 33"
+                                            ng-class="paramValue.value == 'Error' ? 'lampOn' : 'default-val'">{{ paramValue.value}}</span>
+
+                                      <span  ng-if ="paramValue.pid == 14"
+                                            ng-class="paramValue.value == 'Lamp Off' ? 'lampOff' : 'default-val'">{{ paramValue.value}}</span>
+
+                                      <span  ng-if ="paramValue.pid != 10024 && paramValue.pid != 39 && paramValue.pid != 15
+                                       && paramValue.pid != 10012 && paramValue.pid != 10013 && paramValue.pid != 14
+                                       && paramValue.pid != 10014 && paramValue.pid != 33">{{ paramValue.value}}</span>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                </div><!-- /listview-info-box -->
+            </div>
+        </div>
+    </div><!-- row -->
+  </div><!-- table-content-div -->
+    <a id="back-to-top" class="btn btn-primary btn-lg back-to-top" role="button" ng-click="Back2Top()">
+      <i class="fa fa-angle-double-up" aria-hidden="true" ></i>
+    </a>
+</div>
+
+<!-- fault code description popup -->
+<div class="modal fade" id="fcDescModal" tabindex="-1">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content" style="height: 400px !important;">
+      <div class="modal-header">
+          <h4 class="modal-title" id="headingId">Fault Code Description</h4>
+          <button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+      </div>
+      <div class="modal-body modals-body">
+
+        <table class="table table-fixed table-bordered table-striped table-responsive" id="vehicleTable-id"
+         ng-show = "fcListDescription.length > 0">
+          <thead style="display:block;">
+            <tr class="row">
+              <td class="col-md-1 col-sm-1 col-1 tableHead-center">
+                <a href="#">
+                  S. No
+                </a>
+              </td>
+              <td class="col-md-2 col-sm-2 col-2 tableHead-center">
+                <a href="#" >
+                  Cummins Fault Code
+                </a>
+              </td>
+              <td class="col-md-9 col-sm-9 col-9 tableHead-center">
+                <a href="#" >
+                  Cummins Description
+                </a>
+              </td>
+            </tr>
+          </thead>
+
+          <tbody style="height:200px !important; display:block;" id="dtcdescription-id">
+            <tr class="row" ng-repeat="fcDesc in fcListDescription | orderBy:sortType:sortReverse | filter:searchData">
+              <td class="col-md-1 col-sm-1 col-1">{{$index + 1}}</td>
+              <td class="col-md-2 col-sm-2 col-2">{{ fcDesc.CumminsFaultCode }}</td>
+              <td class="col-md-9 col-sm-9 col-9">{{ fcDesc.Cummins_Description }}</td>
+            </tr>
+          </tbody>
+
+        </table>
+        <div id="fcdTab" ng-hide="fcListDescription.length > 0">
+
+        </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script>
+
+  $(document).ready(function(){
+    $('#selectedSectionId').prop("disabled", false);
+    $('#popover-content').modal('hide');
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 5) {
+                $('#back-to-top').fadeIn();
+            } else {
+                $('#back-to-top').fadeOut();
+            }
+        });
+        $('#ele').scroll(function () {
+            if ($(this).scrollTop() > 5) {
+                $('#back-to-top').fadeIn();
+            } else {
+                $('#back-to-top').fadeOut();
+            }
+        });
+
+        setTimeout(function () {
+          $('body,html').animate({
+                scrollTop: 0
+            }, 300);
+        }, 10);
+});
+
+$('#selectParameter-id').on("change", function(e) {
+  var count = $("#selectParameter-id :selected").length;
+  //alert(count);
+  if (count > 0) {
+    $('#selectedSectionId').prop("disabled", true);
+  } else {
+    $('#selectedSectionId').prop('disabled', false);
+  }
+
+  if (count >= 8 ) {
+    $("#selectVehicle-id").select2({
+      maximumSelectionLength: 20
+    });
+  }
+});
+
+
+</script>

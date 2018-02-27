@@ -1,0 +1,141 @@
+<div class="modal" id="showTMSBluetoothModalId" role="dialog">
+    <div class="modal-dialog modal-md">
+	<div class="modal-content" >
+	    <div class="modal-header">
+		<h4 class="modal-title" id="modal-title">
+		    <img src="img/tms/bluetooth.png" alt="TMS" width="30" height="23" class="fafont-icon"/>
+		    <i class="fafont-icon" ng-show="addBControllerButtonStatus"> Add New Bluetooth </i>
+		    <i class="fafont-icon" ng-show="updateBControllerButtonStatus"> Update Bluetooth </i>
+		</h4>
+		<button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+	    </div>
+	    <div class="modal-body">
+		<div class="form-group">
+		    <div class="row">
+			<div class="col-2"></div>
+			<label class="col-3 control-label" for="tmsbluetooth">Bluetooth UID<em class="imp_asterisk">*</em></label>
+			<div class="col-6">
+			    <input class="form-control" id="tmsbluetooth_uid" placeholder="Bluetooth UID" type="text" ng-model="BControllerUID">
+			</div>
+		    </div>
+		    <br/>
+		    <div class="row" id="bluetoothOrgList">
+			<div class="col-2"></div>
+			<label class="col-3 control-label" for="tmsorg">Organization</label>
+			<div class="col-6">
+			    <select id="bluetoothOrganizationId" ng-model="TMSBluetoothOrgId">
+				<option value=''></option>
+				<option ng-repeat="org in TMSOrgList" value="{{org.orgId}}">{{org.orgName}}</option>
+			    </select>
+			</div>
+		    </div>
+		</div> <!-- /form-group -->
+		<br/>
+		<div class="row" >
+		    <div class="col-4"></div>
+		    <div class="col-4">
+			<button type="submit" id="bluetooth_uid_save" class="btn btn-success submit"
+			    ng-show="addBControllerButtonStatus" ng-click = "AddBController()"> Save </button>
+			<button type="submit" id="bluetooth_uid_save" class="btn btn-success submit"
+			    ng-show="updateBControllerButtonStatus" ng-click = "updateBControllerDetails()"> Update </button>
+			<!-- <button type="button" id="bluetooth_uid_cancel" class="btn btn-default cancel"
+			    onclick="bluetooth_clear();" ng-click="showBControllerAddingForm = !showBControllerAddingForm"> Clear </button> -->
+		    </div>
+		</div>
+	    </div>
+	</div>
+    </div>
+</div>
+
+<div class="widget-header" style="margin-top: 0.1em;">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-12">
+      <i class="fa fa-list" aria-hidden="true"></i>
+      <h3> Bluetooth List </h3>
+      <span style="float: right;"> {{nextIndex_bctrl + 1}} -
+        {{nextIndex_bctrl + itemsPerPage_bctrl}} of {{totalItems_bctrl}}</span>
+    </div>
+  </div>
+</div> <!-- /widget-header -->
+
+<div class="widget-content table-responsive" id="tmsData_id">
+    <form>
+	<div class="form-group row ">
+	    <div class="col-md-12 col-sm-12 col-xs-12">
+		<div class="input-group">
+		    <div class="input-group-addon"><i class="fa fa-search"></i></div>
+		    <input type="text" placeholder= "Search by vehicle" class="form-control"
+          ng-model="searchStringForBctrl" ng-change = "searchBCtrl()">
+		</div>
+	    </div>
+	</div>
+    </form>
+    <table class="table table-fixed table-bordered table-hover" ng-if="TMSAllBController.length > 0">
+	<thead class="tablehead">
+	    <tr class="tablehead">
+		<th class="tableHead-center">
+		    <a href="#" > S. No </a>
+		</th>
+		<th class="tableHead-center">
+		    <a href="#" ng-click="sortType = 'controllerUID'; notif_sortReverse = !notif_sortReverse">
+			Controller UID
+			<span ng-show="sortType == 'controllerUID' && !notif_sortReverse" class="fa fa-caret-down"></span>
+			<span ng-show="sortType == 'controllerUID' && notif_sortReverse" class="fa fa-caret-up"></span>
+		    </a>
+		</th>
+		<th class="tableHead-center">
+		    <a href="#" ng-click="sortType = 'status'; notif_sortReverse = !notif_sortReverse">
+			Status
+			<span ng-show="sortType == 'status' && !notif_sortReverse" class="fa fa-caret-down"></span>
+			<span ng-show="sortType == 'status' && notif_sortReverse" class="fa fa-caret-up"></span>
+		    </a>
+		</th>
+		<th class="tableHead-center">
+		    <a href="#" ng-click="sortType = 'createdDateTime'; notif_sortReverse = !notif_sortReverse">
+			Created Date Time
+			<span ng-show="sortType == 'createdDateTime' && !notif_sortReverse" class="fa fa-caret-down"></span>
+			<span ng-show="sortType == 'createdDateTime' && notif_sortReverse" class="fa fa-caret-up"></span>
+		    </a>
+		</th>
+		<!-- <td class="col-md-2 col-sm-2 col-2 tableHead-center">
+		    <a href="#" ng-click="sortType = 'createdby'; notif_sortReverse = !notif_sortReverse">
+			Createdby
+			<span ng-show="sortType == 'createdby' && !notif_sortReverse" class="fa fa-caret-down"></span>
+			<span ng-show="sortType == 'createdby' && notif_sortReverse" class="fa fa-caret-up"></span>
+		    </a>
+		</td> -->
+		<th class="tableHead-center">
+		    <a href="#" > Action </a>
+		</th>
+	    </tr>
+	</thead>
+	<tbody>
+	    <tr ng-repeat="BController in TMSAllBController | orderBy:sortType:notif_sortReverse | filter:tmsBT_searchData">
+		<td class="tableData-right tablebody-td">{{nextIndex_bctrl + $index + 1}}</td>
+		<td class="tablebody-td">{{ BController.controllerUID }}</td>
+		<td class="tablebody-td">{{ BController.status }}</td>
+		<td class="tablebody-td">{{ BController.createdDateTime | date : 'dd-MM-yyyy HH:mm:ss' }}</td>
+		<!-- <td class="col-md-2 col-sm-2 col-2">{{ BController.createdby }}</td> -->
+		<td class="tableHead-center tablebody-td">
+		<span data-toggle="tooltip" title="Edit">
+		    <button class="btn btn-primary btn-xs" ng-click="getBControllerDetailsFormForUpdate(BController)">
+			<i class="fa fa-pencil" aria-hidden="true"></i>
+		    </button>
+		</span>
+            </tr>
+	    <button class="material-button material-button-toggle add-popup" type="button" ng-click="getBControllerDetailsFormForAdd()">
+		<span class="fa fa-plus" aria-hidden="true"></span>
+	    </button>
+	</tbody>
+    </table>
+
+    <uib-pagination total-items="totalItems_bctrl" ng-model="currentPage_bctrl"
+    items-per-page="itemsPerPage_bctrl" max-size="maxSize_bctrl" ng-change="pageChanged_Bluetooth()"
+    boundary-link-numbers="true" rotate="true" boundary-links="true"></uib-pagination>
+</div>
+
+<script>
+    function bluetooth_clear(){
+	$('#tmsbluetooth_uid').val('');
+    }
+</script>

@@ -1,0 +1,7 @@
+//To run this project
+
+//Hope you installed bower, npm
+
+- cd `project-directory`
+- `sudo bower install --allow-root`
+- `npm install`

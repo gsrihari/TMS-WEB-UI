@@ -1,0 +1,47 @@
+
+
+<div class="widget-header" style="margin-top: 0.1em;">
+  <div class="row">
+    <div>
+      <i class="fa fa-list" aria-hidden="true"></i>
+      <h3> Assign Vehicle </h3>
+    </div>
+  </div>
+</div> <!-- /widget-header -->
+
+<div class="widget-content">
+    <div class="form-group row">
+        <div class="col-1"></div>
+        <label class="col-3 control-label" for="tmsuser">Users <em class="imp_asterisk">*</em></label>
+        <div class="col-5">
+            <select name="tms_assignUser[]" id="tms_assignUser_id" class="form-control"
+                    size="8" multiple="multiple">
+                <option ng-repeat="user in basicUserDetails" value="{{user.userId}}">{{user.userName}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-1"></div>
+        <label class="col-3 control-label" for="tmsvehicle">Vehicle List <em class="imp_asterisk">*</em></label>
+        <div class="col-5">
+            <select name="tms_assignVehicle[]" id="tms_assignVehicle_id" class="form-control"
+                    size="8" multiple="multiple" >
+                <option ng-repeat="vehicle in basicVehicleDetails" value="{{vehicle.vehId}}">{{vehicle.vehName}}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row" >
+        <div class="col-4"></div>
+    	<div class="col-4">
+    	    <button type="submit" id="tms_vehicleId_save" class="btn btn-success submit" ng-click="tmsAssignVehToUser()"> Save </button>
+    	</div>
+    </div>
+</div>
+
+<script>
+   function tmsAssignVehicle_clear() {
+    $('#tms_assignUser_id').prop('selectedIndex', -1);
+    $('#tms_assignVehicle_id').prop('selectedIndex', -1);
+}
+</script>

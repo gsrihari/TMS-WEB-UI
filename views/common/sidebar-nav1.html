@@ -1,0 +1,63 @@
+<div class="sidebar" ng-controller="SideNavController">
+    <nav class="sidebar-nav">
+        <ul class="nav">
+            <li class="nav-item nav-dropdown" >
+                <li class="nav-item">
+                    <a class="nav-link" ui-sref-active="active"  ui-sref="app.main">
+                        <i class="fa fa-tachometer nav-icon" aria-hidden="true"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ui-sref-active="active"  ui-sref="app.tms-vehicles">
+                        <i class="fa fa-bus nav-icon" aria-hidden="true"></i> Vehicles
+                    </a>
+                </li>
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link nav-dropdown-toggle">
+                        <img src="img/tms/tyreIcon.png" alt="TMS" class="fafont-icon" width="20" height="15"> Tyres
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link navsub-sublink" ui-sref-active="active" ui-sref="app.tms-tyre" >
+                                Tyre Details
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link navsub-sublink" ui-sref-active="active" ui-sref="app.tmsTyreService">
+                                Service
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link navsub-sublink" ui-sref-active="active" ui-sref="app.tmsTyreInspection" >
+                                Inspection
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ui-sref-active="active" ui-sref="app.tms-sensor" ng-click="getTMSAllSensors()">
+                        <img src="img/tms/sensorIcon.png" alt="TMS" class="fafont-icon" width="25" height="20"> Sensor
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ui-sref-active="active" ui-sref="app.tms-bluetooth" ng-click="getTMSAllBController()">
+                        <img src="img/tms/bluetoothIcon.png" alt="TMS" class="fafont-icon" width="20" height="15"> Bluetooth
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ui-sref-active="active" ui-sref="app.tms-rfid">
+                        <img src="img/tms/rfidIcon.png" alt="TMS" class="fafont-icon" width="20" height="15"> RFID
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ui-sref-active="active" ui-sref="app.tms-assignVehicle">
+                        <img src="img/tms/assignIcon.png" alt="TMS" class="fafont-icon" width="20" height="15"> Assign Vehicle
+                    </a>
+                </li>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" ui-sref-active="active" ng-click="logoutFun('Auto Logout')"><i class="fa fa-sign-out nav-icon"></i> Logout </a>
+            </li>
+        </ul>
+    </nav>
+</div>

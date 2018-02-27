@@ -1,0 +1,170 @@
+<div class="modal" id="showTMSSensorModalId" role="dialog">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content" >
+      <div class="modal-header">
+    	<h4 class="modal-title" id="modal-title">
+	  <img src="img/tms/sensor.png" alt="TMS" width="35" height="30" class="fafont-icon"/>
+	  <i class="fafont-icon" ng-show="addSensorButtonStatus"> Add New Sensor</i>
+	  <i class="fafont-icon" ng-show="updateSensorButtonStatus"> Update Sensor</i>
+    	</h4>
+	<button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <div class="row">
+	    <div class="col-2"></div>
+	    <label class="col-3 control-label" for="tmssensor">Sensor UID<em class="imp_asterisk">*</em></label>
+	    <div class="col-6">
+	      <input class="form-control" id="tmssensor_id" placeholder="Sensor UID" type="text" ng-model = "sensorUID">
+	    </div>
+          </div>
+          <br/>
+          <div class="row">
+            <div class="col-2"></div>
+            <label class="col-3 control-label" for="tmssensor">RIM No<em class="imp_asterisk">*</em></label>
+            <div class="col-6">
+              <input class="form-control" id="rimNo_id" placeholder="RIM No" type="text" ng-model = "rimNo">
+	    </div>
+          </div>
+	  <br/>
+	  <div class="row" id="sensorOrgList">
+	    <div class="col-2"></div>
+	    <label class="col-3 control-label" for="tmsorg">Organization</label>
+	    <div class="col-6">
+	      <select id="sensorOrganizationId" ng-model="TMSSensorOrgId">
+	        <option value=''></option>
+	        <option ng-repeat="org in TMSOrgList" value="{{org.orgId}}">{{org.orgName}}</option>
+	      </select>
+	    </div>
+	  </div>
+        </div> <!-- /form-group -->
+      	<br/>
+      	<div class="row" >
+      	  <div class="col-4"></div>
+      	  <div class="col-4">
+      	    <button type="submit" id="sensor_uid_save" class="btn btn-success submit"
+      	      ng-show="addSensorButtonStatus" ng-click = "AddSensor()"> Save </button>
+      	    <button type="submit" id="sensor_uid_save" class="btn btn-success submit"
+      	      ng-show="updateSensorButtonStatus" ng-click = "updateSensorDetails()"> Update </button>
+      	  </div>
+      	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="widget-header" style="margin-top: 0.1em;">
+  <div class="row">
+    <div class="col-md-12 col-sm-12 col-12"><i class="fa fa-list" aria-hidden="true"></i>
+      <h3> Sensor List </h3>
+      <span style="float: right;"> {{nextIndex_sensor + 1}} -
+    {{nextIndex_sensor + itemsPerPage_sensor}} of {{totalItems_sensor}}</span>
+    </div>
+  </div>
+</div> <!-- /widget-header -->
+
+<div class="widget-content table-responsive">
+  <form>
+    <div class="form-group row ">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="input-group">
+          <div class="input-group-addon"><i class="fa fa-search"></i></div>
+          <input type="text" placeholder= "Search" class="form-control"
+            ng-model="searchStringForSensors" ng-change = "searchSensors()">
+        </div>
+      </div>
+    </div>
+  </form>
+  <table class="table table-fixed table-bordered table-hover">
+    <thead class="tablehead">
+      <tr class="tablehead">
+    	<th class="tableHead-center" >
+    	  <a href="#" > # </a>
+    	</th>
+    	<th class="tableHead-center" >
+    	  <a href="#" ng-click="sortType = 'sensorUID'; sensor_sortReverse = !sensor_sortReverse">
+	    Sensor UID
+	    <span ng-show="sortType == 'sensorUID' && !sensor_sortReverse" class="fa fa-caret-down"></span>
+	    <span ng-show="sortType == 'sensorUID' && sensor_sortReverse" class="fa fa-caret-up"></span>
+	  </a>
+    	</th>
+	     <th class="tableHead-center" >
+    	  <a href="#" ng-click="sortType = 'rimNo'; sensor_sortReverse = !sensor_sortReverse">
+	    RIM No
+	    <span ng-show="sortType == 'rimNo' && !sensor_sortReverse" class="fa fa-caret-down"></span>
+	    <span ng-show="sortType == 'rimNo' && sensor_sortReverse" class="fa fa-caret-up"></span>
+	  </a>
+    	</th>
+    	<th class="tableHead-center" >
+    	  <a href="#" ng-click="sortType = 'status'; sensor_sortReverse = !sensor_sortReverse">
+	    Status
+	  <span ng-show="sortType == 'status' && !sensor_sortReverse" class="fa fa-caret-down"></span>
+	  <span ng-show="sortType == 'status' && sensor_sortReverse" class="fa fa-caret-up"></span>
+    	  </a>
+    	</th>
+    	<th class="tableHead-center" >
+    	  <a href="#" ng-click="sortType = 'createdDateTime'; sensor_sortReverse = !sensor_sortReverse">
+	    Created Date Time
+	    <span ng-show="sortType == 'createdDateTime' && !sensor_sortReverse" class="fa fa-caret-down"></span>
+	    <span ng-show="sortType == 'createdDateTime' && sensor_sortReverse" class="fa fa-caret-up"></span>
+	  </a>
+    	</th>
+    	<!-- <td class="col-md-2 col-sm-2 col-2 tableHead-center">
+    	  <a href="#" ng-click="sortType = 'createdby'; sensor_sortReverse = !sensor_sortReverse">
+	    Createdby
+	    <span ng-show="sortType == 'createdby' && !sensor_sortReverse" class="fa fa-caret-down"></span>
+	    <span ng-show="sortType == 'createdby' && sensor_sortReverse" class="fa fa-caret-up"></span>
+    	  </a>
+    	</td> -->
+    	<th class="tableHead-center" style="border-right: none !important;">
+    	  <a href="#" > Action </a>
+    	</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="sensor in TMSAllSensors | orderBy:sortType:sensor_sortReverse">
+        <td class="tableData-right tablebody-td">{{nextIndex_sensor + $index + 1}}</td>
+        <td class="tablebody-td">{{ sensor.sensorUID }}</td>
+        <td class="tablebody-td">{{ sensor.rimNo }}</td>
+        <td class="tablebody-td">{{ sensor.status }}</td>
+        <td class="tablebody-td">{{ sensor.createdDateTime | date : 'dd-MM-yyyy HH:mm:ss' }}</td>
+	<!-- <td class="col-md-2 col-sm-2 col-2">{{ sensor.createdby }}</td> -->
+        <td class="tableHead-center tablebody-td">
+      	  <span data-toggle="tooltip" title="Edit">
+	    <button class="btn btn-primary btn-xs" ng-click="getSensorDetailsFormForUpdate(sensor)">
+	      <i class="fa fa-pencil" aria-hidden="true"></i>
+      	    </button>
+      	  </span>
+	</td>
+      </tr>
+      <!--<tr ng-if="TMSAllSensors.length == 0">
+        <td>No records are found </td>
+      </tr>-->
+      <button class="material-button material-button-toggle add-popup" type="button" ng-click="getSensorDetailsFormForAdd();">
+        <span class="fa fa-plus" aria-hidden="true"></span>
+      </button>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <!--<div>
+    <div class="row">
+      <div class="col-md-6 col-sm-6 col-6">
+        <button id="prevBtnId_sensor" ng-click="prevSensors()" class="prevButton"><span>Prev</span></button>
+        <button id="nextBtnId_sensor" ng-click = "nextSensors()" class="nextButton"><span>Next</span></button>
+      </div>
+    </div>
+  </div>-->
+  <uib-pagination total-items="totalItems_sensor" ng-model="currentPage_sensor"
+    items-per-page="itemsPerPage_sensor" max-size="maxSize_sensor" ng-change="pageChanged_sensor()"
+    boundary-link-numbers="true" rotate="true" boundary-links="true"></uib-pagination>
+</div>
+
+<script>
+  function sensor_clear() {
+    $('#tmssensor_id').val('');
+  }
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+  })
+</script>

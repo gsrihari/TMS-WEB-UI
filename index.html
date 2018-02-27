@@ -1,0 +1,451 @@
+<!--
+ * CoreUI - Open Source Bootstrap Admin Template
+ * @version v1.0.0-alpha.5
+ * @link http://coreui.io
+ * Copyright (c) 2017 creativeLabs Łukasz Holeczek
+ * @license MIT
+ -->
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
+    <meta name="author" content="Łukasz Holeczek">
+    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,AngularJS,Angular,Angular2,Angular 2,Angular4,Angular 4,jQuery,CSS,HTML,RWD,Dashboard,React,React.js,Vue,Vue.js">
+
+
+    <title>Placer</title>
+
+    <!-- Main styles for this application -->
+    <link href="css/style.css" rel="stylesheet">
+    <!-- <link href="css/notification.css" rel="stylesheet">
+    <link href="css/config-style.css" rel="stylesheet"> -->
+    <link href="css/tms-style.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="css/select.css"> -->
+
+    <!-- To display the Error message in Log In and Supervisor Registration Forms -->
+    <link rel="stylesheet" href="css/error-message.css"/>
+    <link rel="stylesheet" href="css/toastr.min.css"/>
+
+    <link rel="stylesheet" href = "css/animate.css"/>
+
+    <!-- Select2 CSS -->
+    <link href="css/select2.css" rel="stylesheet">
+
+    <!-- datetimepicker CSS -->
+    <link href="css/jquery.datetimepicker.css" rel="stylesheet">
+
+    <!-- google map css -->
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,900,300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800,600,300' rel='stylesheet' type='text/css'>
+
+</head>
+
+<!-- BODY options, add following classes to body to change options
+
+	// Header options
+	1. '.header-fixed'					- Fixed Header
+
+	// Sidebar options
+	1. '.sidebar-fixed'					- Fixed Sidebar
+	2. '.sidebar-hidden'			bower_components/bootstrap-toggle	- Hidden Sidebar
+	3. '.sidebar-off-canvas'		- Off Canvas Sidebar
+  4. '.sidebar-minimized'			- Minimized Sidebar (Only icons)
+  5. '.sidebar-compact'			  - Compact Sidebar
+
+	// Aside options
+	1. '.aside-menu-fixed'			- Fixed Aside Menu
+	2. '.aside-menu-hidden'			- Hidden Aside Menu
+	3. '.aside-menu-off-canvas'	- Off Canvas Aside Menu
+
+	// Footer options
+	1. 'footer-fixed'						- Fixed footer
+
+	-->
+
+<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+
+    <!-- User Interface -->
+    <ui-view></ui-view>
+
+    <!-- Modal -->
+    <div class="modal fade" id="showNotificationsModelId" role="dialog" >
+        <div class="modal-dialog modal-lg" >
+
+          <!-- Modal content-->
+          <div class="modal-content" >
+            <div class="modal-header">
+              <h4 class="modal-title" id="headingId"> Notifications </h4>
+              <button type="button" class="close" data-dismiss="modal" style="cursor: pointer;">&times;</button>
+            </div>
+            <div class="modal-body" >
+              <div class="">
+                <div class="container" >
+		    <div class="row notify_search_element">
+                            <div class="col-md-3 col-xs-11 form-group">
+                                <div class="input-group notify_date">
+                                    <input id="notifySearchFromDate" name="myDate" type="text" class="form-control">
+                                    <div class="input-group-addon" style="cursor: pointer;" onclick="$('#notifySearchFromDate').focus();">
+					<i class="fa fa-calendar"></i>
+				    </div>
+                                </div>
+                                <span></span>
+                            </div>
+                            <div class="col-md-4 col-xs-11 notify_radio" id="notify_radio">
+				<div class="row">
+				    <label class="col-md-6 col-xs-12" style="cursor: pointer;">
+					<input type="radio" class="radioBtnClass" name="search" value="1" id="notify_Searchstat_Actionpending" checked="checked">
+					Action Pending
+				    </label>
+				    <label class="col-md-6 col-xs-12" style="cursor: pointer;">
+					<input type="radio" class="radioBtnClass" name="search" value="2" id="notify_Searchstat_Actiontaken" >
+					Action Taken
+				    </label>
+				</div>
+                            </div>
+			    <div class="col-md-5 col-xs-11" style="margin-top: 11px;">
+				<div class="input-group">
+				  <div class="input-group-addon"><i class="fa fa-search"></i></div>
+				    <input type="text" class="form-control" placeholder="Search" ng-model="notif_searchData">
+				</div>
+			    </div>
+                    </div>
+		    <form>
+			<div class="row">
+                               <!-- <div id="onwardDates" class="date_nav_Notify" >-->
+                            <div class="col-md-4 col-xs-4 prev-link">
+                                <input class="btn btn-link" value="<< Previous" ng-click="notificationListView('', 'P');"/>
+                            </div>
+                            <div class="col-md-2 col-xs-2 date-link">
+                                <div class="dateDisplay" id="dateDoubleOnward">  </div>
+                            </div>
+                            <div class="col-md-4 col-xs-4 next-link">
+                                <input id="next-day-link" class="btn btn-link" value="Next >>" ng-click="notificationListView('', 'N');"/>
+                            </div>
+                            <div class="col-md-2 col-xs-2 total-link">
+                                <div class="notify_totalEntry">
+                                    <label class="speed_max"> Total Entries : <span id="total_notify_entry_id" class="speed_avg_val">{{latestNotificationsList.length}}</span></label>
+                                </div>
+                            </div>
+                                <!--</div>-->
+                        </div>
+		      <!--<div class="form-group row ">
+			<div class="col-md-2" style="text-align: center;line-height: 34px;">
+			  <span style="display: inline-block; vertical-align: middle; line-height: normal;">
+			    Total Records : {{latestNotificationsList.length}}
+			  </span>
+			</div>
+		      </div>-->
+		    </form>
+                  <table class="table table-fixed table-bordered table-striped table-responsive" id="notificationTable-id" ng-show="latestNotificationsList.length > 0">
+                    <thead>
+                      <tr class="row">
+                        <!-- <td class="col-md-1 col-sm-1 col-1">
+                          <a href="#" >
+                            S. No
+                          </a>
+                        </td> -->
+                        <td class="col-md-2 col-sm-2 col-2 tableHead-center">
+                          <a href="#" ng-click="sortType = 'veh_name'; notif_sortReverse = !notif_sortReverse">
+                            Vehicle
+                            <span ng-show="sortType == 'veh_name' && !notif_sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'veh_name' && notif_sortReverse" class="fa fa-caret-up"></span>
+                          </a>
+                        </td>
+                        <td class="col-md-2 col-sm-2 col-2 tableHead-center">
+                          <a href="#" ng-click="sortType = 'device_date_time'; notif_sortReverse = !notif_sortReverse">
+                            Updated Time
+                            <span ng-show="sortType == 'device_date_time' && !notif_sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'device_date_time' && notif_sortReverse" class="fa fa-caret-up"></span>
+                          </a>
+                        </td>
+                        <td class="col-md-2 col-sm-2 col-2 tableHead-center" ng-show='filter_val == 1'>
+                          <a href="#" ng-click="sortType = 'param'; notif_sortReverse = !notif_sortReverse">
+                            Parameter
+                            <span ng-show="sortType == 'param' && !notif_sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'param' && notif_sortReverse" class="fa fa-caret-up"></span>
+                          </a>
+                        </td>
+                        <td class="col-md-1 col-sm-2 col-2 tableHead-center" ng-show='filter_val == 2'>
+                          <a href="#" ng-click="sortType = 'param'; notif_sortReverse = !notif_sortReverse">
+                            Parameter
+                            <span ng-show="sortType == 'param' && !notif_sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'param' && notif_sortReverse" class="fa fa-caret-up"></span>
+                          </a>
+                        </td>
+                        <td class="col-md-2 col-sm-2 col-2 tableHead-center" ng-show='filter_val == 1'>
+                          <a href="#" ng-click="sortType = 'value'; notif_sortReverse = !notif_sortReverse">
+                            Parameter Value
+                            <span ng-show="sortType == 'value' && !notif_sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'value' && notif_sortReverse" class="fa fa-caret-up"></span>
+                          </a>
+                        </td>
+                        <td class="col-md-1 col-sm-2 col-2 tableHead-center" ng-show='filter_val == 2'>
+                          <a href="#" ng-click="sortType = 'value'; notif_sortReverse = !notif_sortReverse">
+                            Parameter Value
+                            <span ng-show="sortType == 'value' && !notif_sortReverse" class="fa fa-caret-down"></span>
+                            <span ng-show="sortType == 'value' && notif_sortReverse" class="fa fa-caret-up"></span>
+                          </a>
+                        </td>
+                        <td class="col-md-2 col-sm-2 col-2 tableHead-center" ng-show='filter_val == 1'>
+                          <a href="#">
+                            Expected Value
+                          </a>
+                        </td>
+                        <td class="col-md-1 col-sm-2 col-2 tableHead-center" ng-show='filter_val == 2'>
+                          <a href="#">
+                            Expected Value
+                          </a>
+                        </td>
+                        <td class="col-md-2 col-sm-1 col-1 tableHead-center" ng-show='filter_val == 1'>
+                          <a href="#" >
+                            Action
+                          </a>
+                        </td>
+                        <td class="col-md-1 col-sm-2 col-2 tableHead-center" ng-show='filter_val == 2'>
+                          <a href="#">
+                            Action Taken By
+                          </a>
+                        </td>
+                        <td class="col-md-2 col-sm-2 col-2 tableHead-center" ng-show='filter_val == 2'>
+                          <a href="#">
+                            Action Taken Time
+                          </a>
+                        </td>
+                        <td class="col-md-2 col-sm-1 col-1 tableHead-center" ng-show='filter_val == 2'>
+                          <a href="#" >
+                            Description
+                          </a>
+                        </td>
+                      </tr>
+                    </thead>
+
+                    <tbody style="height: 300px !important; display:block;">
+                      <tr class="row"
+                          ng-repeat="notification in latestNotificationsList | orderBy:sortType:notif_sortReverse
+                            | filter:notif_searchData">
+                        <!-- <td class="col-md-1 col-sm-1 col-1">{{$index + 1}}</td> -->
+                        <td class="col-md-2 col-sm-2 col-2">{{ notification.veh_name }}
+                          <button class="btn btn-danger btn-circle" type="button"
+                            ng-click="singleVehNotifPopUp(notification.vehId, notification.pid,
+                            notification.veh_name , notification.param, notification.paramFullName);"
+			  data-toggle="modal" data-target="#myModal">{{notification.subRecCount}}</button>
+                        </td>
+                        <td class="col-md-2 col-sm-2 col-2">{{ notification.device_date_time }}</td>
+                        <!-- Action Pending -->
+                        <td class="col-md-2 col-sm-2 col-3" ng-show='filter_val == 1'>{{ notification.param }}</td>
+                        <td class="col-md-2 col-sm-2 col-2" ng-show='filter_val == 1'>
+                          <span ng-if="notification.value > 97 && notification.value <= 100" class="ect-l1">
+                            {{ notification.value }}
+                          </span>
+                          <span ng-if="notification.value >= 101 && notification.value <= 103" class="ect-l2">
+                            {{ notification.value }}
+                          </span>
+                          <span ng-if="notification.value >= 104 && notification.value <= 110" class="ect-l3">
+                            {{ notification.value }}
+                          </span>
+                        </td>
+                        <td class="col-md-2 col-sm-2 col-2" ng-show='filter_val == 1'>
+                          <span ng-if="isNaN(notification.param_range) == true"> {{ notification.param_range }}
+                          </span>
+                          <span ng-if="isNaN(notification.param_range) == false"> {{ notification.operator }}
+                            {{ notification.param_range }}</span>
+                        </td>
+                        <td class="col-md-2 col-sm-1 col-1" ng-if='filter_val == 1' ng-init="showTextArea = false">
+			    <span ng-show="showTextArea == false">
+			    <button ng-click="showTextArea = true; actionText=''">Take Action</button>
+			    </span>
+			    <span ng-show="showTextArea == true">
+				<textarea maxlength="300" id="textarea" ng-model="actionText"></textarea>
+				<br><button id="btn_save" ng-click="UpdateClassifyAlert(notification.notification_id,
+					notification.device_date_time_millis, notification.vehId, $index, notification.pid, actionText);">
+					Save</button>
+				    <button id="btn_cancel" ng-click="showTextArea = false">Cancel</button>
+			    </span>
+			    <!--<div id={{'ClassifyAlert'+$index}}><button ng-click="EditClassifyAlert(notification.notification_id, notification.device_date_time_millis,
+				notification.vehId, $index, notification.pid);">Take Action</button>
+			    </div>-->
+			</td>
+
+                        <!-- Action Taken -->
+                        <td class="col-md-1 col-sm-2 col-3" ng-show='filter_val == 2'>{{ notification.param }}</td>
+                        <td class="col-md-1 col-sm-2 col-2" ng-show='filter_val == 2'>
+                          <span ng-if="notification.value > 97 && notification.value <= 100" class="ect-l1">
+                            {{ notification.value }}
+                          </span>
+                          <span ng-if="notification.value >= 101 && notification.value <= 103" class="ect-l2">
+                            {{ notification.value }}
+                          </span>
+                          <span ng-if="notification.value >= 104 && notification.value <= 110" class="ect-l3">
+                            {{ notification.value }}
+                          </span>
+                        </td>
+                        <!-- <td ng-show="findTypeOf(notification.param_range) == 'string'">{{ notification.param_range }}</td>
+                        <td ng-show="findTypeOf(notification.param_range) != 'string'">{{ notification.operator }} {{ notification.param_range }}</td> -->
+                        <td class="col-md-1 col-sm-2 col-2" ng-show='filter_val == 2'>
+                          <span ng-if="isNaN(notification.param_range) == true"> {{ notification.param_range }}
+                          </span>
+                          <span ng-if="isNaN(notification.param_range) == false"> {{ notification.operator }}
+                            {{ notification.param_range }}</span>
+                        </td>
+                        <td ng-show='filter_val == 2' class="col-md-1 col-sm-1 col-1">{{ notification.actionTakenBy }}</td>
+                        <td ng-show='filter_val == 2' class="col-md-2 col-sm-1 col-1">{{ notification.timestamp }}</td>
+                        <td ng-show='filter_val == 2' class="col-md-2 col-sm-1 col-1"><span class="more">{{ notification.description }}</span></td>
+
+                      </tr>
+                    </tbody>
+
+                    </table>
+
+                </div>
+                <div ng-show = "latestNotificationsList.length == 0">
+                  <h4>No Notifications to display.</h4>
+                </div>
+              </div>
+            </div> <!-- End of model-body -->
+            <!--<div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>-->
+            </div>
+          </div>
+        </div><!-- End of Modal -->
+
+	<!-- Notification chart -->
+            <div class="modal fade bs-chart-modal-lg" id="myModal" role="dialog" aria-labelledby="myLargeModalLabel">
+                <div class="modal-dialog modal-lg" style="width: 50%">
+                    <div class="modal-content">
+                        <div>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-right: 2%;margin-top: 1%; cursor: pointer;"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="headingId"> Notification Chart </h4>
+                        </div>
+
+                        <div class="modal-body text-left" style="height:auto;">
+                            <div id="notify_chart" class="notify_chart_view"> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <!-- Bootstrap and necessary plugins -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.cookie.js"></script>
+    <script src="bower_components/tether/dist/js/tether.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- AngularJS -->
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular/angular-resource.min.js"></script>
+    <script src="bower_components/angular/angular-cookies.js"></script>
+    <script src="bower_components/angular/angular-animate.js"></script>
+
+    <!-- AngularJS plugins -->
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+    <script src="bower_components/angular-breadcrumb/dist/angular-breadcrumb.min.js"></script>
+    <script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
+
+    <!-- High Charts -->
+    <script src="bower_components/highcharts/highcharts.js"></script>
+    <script src="bower_components/highcharts/highcharts-more.js"></script>
+
+    <!-- For Select box -->
+    <script src="bower_components/google-map/select2.js"></script>
+    <!-- Toastr -->
+    <!-- For Doc, http://codeseven.github.io/toastr/demo.html -->
+    <script src="bower_components/toastr.min.js"></script>
+    <!-- Files for TMS -->
+    <script src="js/jquery.dataTables.min.js"></script>
+    <script src="js/jquery-prompt21.js"></script>
+    <script src="js/select.js"></script>
+
+    <!-- <script src="js/ui-bootstrap-tpls-2.5.0.js"></script> -->
+    <script data-require="ui-bootstrap@*" data-semver="1.3.2" src="https://cdn.rawgit.com/angular-ui/bootstrap/gh-pages/ui-bootstrap-tpls-1.3.2.js"></script>
+
+    <!-- Files for TMS ENDS -->
+
+    <!-- Google map API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZtc5tWViKvQmXRdTFmtJx2oQYJSCH6Xc&libraries=panoramio,adsense"></script>
+
+    <!-- <script src="bower_components/infobox.js"></script>
+    <script src="bower_components/markerAnimate.js"></script>
+    <script src="bower_components/SlidingMarker.js"></script> -->
+    <!-- AngularJS CoreUI App scripts -->
+
+    <!-- <script src="bower_components/google-map/infobox.js"></script>
+    <script src="bower_components/google-map/jquery.easing.1.3.js"></script>
+    <script src="bower_components/google-map/markerAnimate.js"></script>
+    <script src="bower_components/google-map/SlidingMarker.js"></script> -->
+
+    <script src="js/app.js"></script>
+
+    <script src="js/services/APIServices.js"></script>
+
+    <script src="js/routes.js"></script>
+
+    <script src="js/demo/routes.js"></script>
+
+    <script src="js/LoginController.js"></script>
+    <script src="js/Nav_Side_Controller.js"></script>
+    <script src="js/controllersSysAdmin.js"></script>
+    <script src="js/TMSDashboardController.js"></script>
+    <script src="js/TMSTempPressureController.js"></script>
+    <script src="js/TPMSReportController.js"></script>
+
+    <script src="js/TMSController.js"></script>
+
+
+    <script src="js/directives.js"></script>
+
+    <!-- Notification js files -->
+     <script src="js/moment.js"></script>
+    <script src="js/jquery.datetimepicker.js"></script>
+    <!-- <script src="js/notification.js"></script> -->
+
+    <!--<script src="js/reports.js"></script>-->
+
+    <script>
+
+      loading = {
+          count: 0
+      };
+
+      loading.finish = function() {
+        try {
+            this.count--;
+            if (this.count <= 0){
+              this.count = 0;
+              this.$div.hide();
+            }
+        } catch (e) {}
+
+      };
+
+      loading.start = function() {
+          this.count++;
+          if (!this.$div) {
+              var html = '<div style="position: fixed;z-index:100;left:0;top:0;right:0;bottom:0;background: black;opacity: 0.2;">';
+              html += '<table width=100% height=100%>';
+              html += '<tr><td align=center valign=middle>';
+              html += '<img src="img/Spinner.gif" width="150" height="150">';
+              html += '</td></tr>';
+              html += '</table></div>';
+              this.$div = $(html);
+              this.$div.prependTo('body');
+          }
+          setTimeout(function(){
+              if (loading.count>0) loading.$div.show();
+          }, 1);
+      };
+
+    	$('.btn-toggle').click(function() {
+    	    $(this).find('.btn').toggleClass('active');
+    	});
+    </script>
+
+</body>
+
+</html>

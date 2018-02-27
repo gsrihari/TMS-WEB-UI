@@ -1,0 +1,136 @@
+<!-- live chart -->
+
+<div class="widget-header" style="margin-top: 0.1em;">
+    <i class="icon-graph"></i>
+    <h3> Charts </h3>
+</div> <!-- /widget-header -->
+
+<div class="widget-content" ng-init="initChartView()">
+    <div class="row">
+        <div class="col-md-4 col-sm-12 col-xs-12 input-group report-select">
+            <input id="liveChartDisplayDate" name="myDate" type="text" class="form-control chartDate"  placeholder="Start DateTime">
+            <div class="datepicker-icn chartDate" style="cursor: pointer;" onclick="$('#liveChartDisplayDate').focus();">
+                <i class="fa fa-calendar" style="cursor: pointer"></i>
+            </div>                      
+        </div>
+        
+        <div class="col-md-2 col-sm-12 col-xs-12 livechart_time" style="width: 14% !important;"> 
+            <input id="liveChartFromTime" style="float: right;" name="myTime" type="text" class="form-control chartTime" placeholder="From Time">
+        </div>
+        
+        <div class="col-md-2 col-sm-12 col-xs-12 livechart_time" style="width: 14% !important;">
+            <input id="liveChartToTime" name="myTime" type="text" class="form-control chartTime" placeholder="To Time">
+        </div>
+        
+        <div class="col-md-4 col-sm-12 col-xs-12 report-select">
+           <select id="liveChartVehicleLists" class="select2-style" ng-model="selectedVehIds_report" multiple="multiple">
+            <option ng-repeat="vehicle in vehiclesList | orderBy : 'veh_name'" value="{{vehicle.veh_id}}">
+              {{vehicle.veh_name}}
+            </option>
+          </select>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4 col-sm-12 col-xs-12">
+            <div class="livechart_param" id ="livechart_param_div_id">
+                <select id="livechart_parameter_id" class="livechart_parameters" data-placeholder="Select Parameter" >
+                    <option></option>
+                    <option value="10">Engine Coolant Temperature</option>
+                    <option value="11">Engine Oil Temperature</option>
+                    <option value="10002">Vehicle Speed</option>
+                </select> 
+            </div>
+            <div class="livechart_multiple_param" id ="livechart_multiple_param_div_id">
+                <select id="livechart_multiple_param_id" class="livechart_parameters1" multiple="">
+                    <option value="10">Engine Coolant Temperature</option>
+                    <option value="11">Engine Oil Temperature</option>
+                    <option value="10002">Vehicle Speed</option>
+                </select> 
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-xs-12" style="margin-left: 15px;">
+            <button id="idGenerateChartButton" class="btn btn-primary" ng-click="generateChart()">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                Go
+            </button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-default active btn-sx" data-dismiss="modal" ng-click="clearChartDetails();">
+                <span class="fa fa-times"> Clear</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+    <div class="modal-body text-left" style="height:auto;"> 
+        <div id="chart_container" class="livechart_view"> </div>
+    </div>
+
+<script>
+    $('#livechart_param_div_id').hide();
+    $('#liveChartDisplayDate').datetimepicker({
+        format: 'Y/m/d',
+        onShow: function (ct) {
+            if ($('#liveChartDisplayDate').hasClass('error'))
+                $('#liveChartDisplayDate').removeClass('error');
+        },
+        maxDate: moment().format('DD-MM-YYYY'),
+        defaultTime: '00:00',
+        timepicker: false,
+        value: moment().format("YYYY/MM/DD")
+    });
+
+    $('#liveChartFromTime').datetimepicker({
+        datepicker: false,
+        format: 'H:i',
+        value: "00:00"
+    });
+
+    $('#liveChartToTime').datetimepicker({
+        datepicker: false,
+        format: 'H:i',
+        value: moment().format("HH:mm")
+    });
+
+    $('#livechart_parameter_id').select2({
+        placeholder: 'Select Parameter',
+        allowClear: true,
+        width: 320
+    });
+
+    $('#livechart_multiple_param_id').select2({
+        placeholder: 'Select Parameters',
+        allowClear: true,
+        maximumSelectionLength: 5,
+        width: 320
+    });
+
+    $('#liveChartVehicleLists').select2({
+        placeholder: 'Select Vehicles',
+        allowClear: true,
+        maximumSelectionLength: 5,
+        width: 360
+    });
+    
+    $('#liveChartVehicleLists').on("select2:select", function (e) {
+        var count = $("#liveChartVehicleLists :selected").length;
+        if (count == 1) {
+            $('#livechart_param_div_id').hide();
+            $('#livechart_multiple_param_div_id').show();
+        } else {
+            $('#livechart_param_div_id').show();
+            $('#livechart_multiple_param_div_id').hide();
+        }
+    });
+    
+    $('#liveChartVehicleLists').on("select2:unselect", function (e) {
+        var unselected_value = $('#liveChartVehicleLists').val().length;
+        if (unselected_value == 1) {
+            $('#livechart_param_div_id').hide();
+            $('#livechart_multiple_param_div_id').show();
+        } else {
+            $('#livechart_param_div_id').show();
+            $('#livechart_multiple_param_div_id').hide();
+        }
+    }).trigger('change');
+</script>
