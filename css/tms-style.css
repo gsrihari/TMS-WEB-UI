@@ -513,3 +513,27 @@ legend {
 .bg-mustard {background: #e0c604 !important;color: white;}
 
 .bg-blue {background: #008577 !important;color: white;}
+
+.report-widget {
+	border-radius: 0px !important;
+	margin-top: 5px !important;
+	border: 1px solid #BFBFBF !important;
+}
+.report-radio{
+    margin-top: 15px;
+}
+.report-title{
+	margin-left: 10px !important;
+	color: #20a8d8;
+	font-weight: 700;
+	font-size: 17px;
+}
+.download_icon {
+	font-size: 23px;
+	/*border: 1px solid rgba(0, 0, 0, 0.15);*/
+	width: 50px;
+	cursor: pointer;
+	text-align: center;
+	float: right;
+	color: #3BC9DB;
+}

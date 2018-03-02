@@ -10475,11 +10475,11 @@ body::-webkit-scrollbar{
     margin-left: 25%;
     margin-right: 25%
 }
-.notify_chart_view{
+.report_chart_view{
     border: 1px solid #CCC;
     box-shadow: 1px 1px 2px #D1D1D1;
     border-radius: 2px;
-    height: 380px;
+    height: 430px;
     margin: 0 auto;
     overflow: hidden !important;
 }
@@ -10820,4 +10820,28 @@ body::-webkit-scrollbar{
   border: 1px solid #cfd8dc; }
   .table-bordered th,
   .table-bordered td {
-    border: 1px solid #cfd8dc; }
+    border: 1px solid #cfd8dc;
+  }
+  
+/* tpms styles */
+.tpmsdatepicker-icn {
+  padding: 0.45rem 0.65rem;
+  margin-bottom: 0;
+  font-size: 0.875rem;
+  font-weight: normal;
+  line-height: 1.25;
+  color: #607d8b;
+  text-align: center;
+  background-color: #cfd8dc;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+.tpmsbtn {
+  border-radius: 0px !important;
+}
+
+.report-div{
+  border: 1px solid #eee;
+  background-color: white;
+  height: auto;
+  padding-top: 15px;
+}
